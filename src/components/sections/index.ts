@@ -9,3 +9,4 @@ export { CTA } from './CTA';
 export { CaseStudyNavigation } from './CaseStudyNavigation';
 export { ContactForm } from './ContactForm';
 export { ContactInfo } from './ContactInfo';
+export { default as ServicePair } from './ServicePair';

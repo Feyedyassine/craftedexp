@@ -19,8 +19,8 @@ interface NavItem {
 
 
 const mainNavItems: NavItem[] = [
-  { label: 'For Corporate', href: '/corporate', isActive: false },
-  { label: 'For Individuals', href: '/individuals', isActive: false },
+  { label: 'For Corporate', href: '/for-corporate', isActive: false },
+  { label: 'For Individuals', href: '/for-individuals', isActive: false },
 ];
 
 export function Header({ className }: HeaderProps) {
