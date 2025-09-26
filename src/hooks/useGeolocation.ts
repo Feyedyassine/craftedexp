@@ -155,6 +155,32 @@ export function useGeolocation(): GeolocationData {
           return;
         }
 
+        // Try Vercel's built-in geolocation first (most accurate on Vercel)
+        try {
+          const response = await fetch('/api/geolocation', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            const detectedCountry = data.country || DEFAULT_COUNTRY;
+            const detectedCurrency = countryToCurrency[detectedCountry] || DEFAULT_CURRENCY;
+            
+            setCountry(detectedCountry);
+            setCurrency(detectedCurrency);
+            
+            // Cache the result
+            setCachedData(detectedCountry, detectedCurrency);
+            setLoading(false);
+            return;
+          }
+        } catch (vercelError) {
+          console.warn('Vercel geolocation service failed:', vercelError);
+        }
+
         // Try primary service (ipapi.co)
         try {
           const response = await fetch('https://ipapi.co/json/', {
