@@ -24,7 +24,7 @@ const caseStudies: CaseStudyData[] = [
   {
     id: 'porsche-taycan-launch',
     title: 'Porsche Taycan Launch',
-    description: 'Porsche Centre Tunis introduced the brand&apos;s first 100% electric sports car with an exclusive launch event in Gammarth.',
+    description: 'ENNAKL Automobile introduced the brand\'s first 100% electric sports car with an exclusive launch event in Gammarth.',
     challenge: 'Create a high-impact product launch that combined prestige, innovation, and technical credibility while positioning Porsche as a leader in electric mobility in Tunisia.',
     solution: 'Our agency designed and delivered a premium experience with a dramatic reveal, immersive brand storytelling, seamless logistics, and strong media and influencer engagement.',
     results: 'Widespread press coverage, strengthened brand positioning in the electric segment, memorable experiences for VIP guests, and valuable new client leads for Porsche/Ennakl.',
@@ -43,13 +43,23 @@ const caseStudies: CaseStudyData[] = [
   },
   {
     id: 'darana-photoshoot',
-    title: 'Photoshoot for Darana Switzerland',
+    title: 'Photoshoot for Darana',
     description: 'Darana Switzerland, a premium cosmetics brand, partnered with our agency to create a luxury lifestyle photoshoot at the Four Seasons Hotel Gammarth.',
     challenge: 'Deliver a high-end brand shoot abroad that reflected Darana\'s elegance and values, while managing all logistics for an international client.',
     solution: 'We provided full creative direction, coordinated top photographers and professional models, and oversaw styling, makeup, and production to ensure a seamless experience.',
     results: 'Stunning visual assets for Darana\'s European campaigns, a smooth and stress-free process, and an impressed client who praised our professionalism, creativity, and attention to detail.',
     image: '/images/darana.webp',
     imageAlt: 'Darana Switzerland luxury photoshoot at Four Seasons Hotel Gammarth'
+  },
+  {
+    id: 'padel-master-tournament',
+    title: 'Padel Master Tournament',
+    description: 'Magic Hôtel El Manar hosted Tunisia\'s premier Padel Master Tournament, bringing together the country\'s best players for two weeks of competition and celebration.',
+    challenge: 'Organize a high-profile, 100% Tunisian tournament that combined professionalism, intensity, and entertainment, while positioning Magic Hôtels as a leader in sports and hospitality.',
+    solution: 'We delivered a turnkey event with professional courts, seamless logistics, premium hospitality, and dynamic promotion — ensuring both players and guests experienced the highest standards.',
+    results: 'Over 75,000 DT in prize money awarded, strong media visibility, unforgettable experiences for players and fans, and reinforced Magic Hôtels\' role in growing padel and hosting world-class events in Tunisia.',
+    image: '/images/padel.jpeg',
+    imageAlt: 'Padel Master Tournament at Magic Hôtel El Manar'
   }
 ];
 
@@ -157,6 +167,7 @@ export function CaseStudy({ className }: CaseStudyProps) {
                   currentCaseStudy.id === 'porsche-taycan-launch' ? '/case-studies/porsche-taycan-launch' :
                   currentCaseStudy.id === 'green-growth-summit' ? '/case-studies/green-growth-summit' :
                   currentCaseStudy.id === 'darana-photoshoot' ? '/case-studies/darana-photoshoot' :
+                  currentCaseStudy.id === 'padel-master-tournament' ? '/case-studies/padel-master-tournament' :
                   '#'
                 }>
                   <Button 

@@ -1,4 +1,4 @@
-import { Header } from '@/components/layout';
+import { Header, Footer } from '@/components/layout';
 import { Container, Section, H2, Body } from '@/components/ui';
 import { ContactForm, ContactInfo } from '@/components/sections';
 
@@ -70,6 +70,9 @@ export default function ContactPage() {
           </div>
         </Container>
       </Section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

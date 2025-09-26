@@ -17,7 +17,7 @@ const testimonials: Testimonial[] = [
     quote: "Thank you for all you did to make my brief time at the Four Seasons in Tunis such a grand success. It means a lot to me and to the WFP team working so hard to improve the lives of children all over the region. I hope the rest of the Forum goes well. All the best and hope to see you again soon.",
     author: "David Beasley",
     role: "Executive Director",
-    company: "WFP",
+    company: "World Food Programme",
     companyLink: "https://www.wfp.org/",
   },
   {
@@ -64,7 +64,10 @@ export function IntroWithTestimonials({ className }: IntroWithTestimonialsProps)
                   {testimonial.author}
                 </div>
                 <div className="text-xs sm:text-sm text-charcoal/70">
-                  {testimonial.role}, {testimonial.companyLink ? (
+                  {testimonial.role}
+                </div>
+                <div className="text-xs sm:text-sm text-charcoal/70">
+                  {testimonial.companyLink ? (
                     <a 
                       href={testimonial.companyLink} 
                       target="_blank" 

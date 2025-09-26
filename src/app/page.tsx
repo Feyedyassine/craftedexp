@@ -1,4 +1,4 @@
-import { Header } from '@/components/layout';
+import { Header, Footer } from '@/components/layout';
 import { Hero, OurServices, CaseStudy, IntroWithTestimonials, WhyChooseUs } from '@/components/sections';
 
 export default function Home() {
@@ -23,6 +23,9 @@ export default function Home() {
 
       {/* Why Choose Us Section */}
       <WhyChooseUs />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

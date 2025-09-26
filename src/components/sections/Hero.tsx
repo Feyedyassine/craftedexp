@@ -12,7 +12,7 @@ export function Hero({ className }: HeroProps) {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(/images/bg.jpg)',
+          backgroundImage: 'url(/images/hero.webp)',
         }}
       />
       
