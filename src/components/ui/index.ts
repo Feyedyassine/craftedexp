@@ -34,3 +34,6 @@ export {
 export { ServiceCard } from './ServiceCard';
 export { TestimonialCard } from './TestimonialCard';
 export { FeatureGrid } from './FeatureGrid';
+export { DualRangeSlider } from './DualRangeSlider';
+export { CountrySelector } from './CountrySelector';
+export { PhoneInput } from './PhoneInput';

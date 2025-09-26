@@ -40,11 +40,11 @@ export function Hero({ className }: HeroProps) {
         </div>
         
         {/* Button - Centered */}
-        <div className="w-full max-w-xs sm:max-w-sm">
+        <div className="max-w-xs sm:max-w-sm">
           <Button 
             variant="outline"
             size="lg" 
-            className="w-full text-cream border-cream hover:bg-cream hover:text-charcoal"
+            className="text-cream border-cream hover:bg-cream hover:text-charcoal"
           >
             Begin Your Journey
           </Button>

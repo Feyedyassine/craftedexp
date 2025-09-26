@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
 import Image from 'next/image';
@@ -15,42 +17,40 @@ interface NavItem {
   isActive?: boolean;
 }
 
-interface SecondaryNavItem {
-  label: string;
-  href: string;
-}
 
 const mainNavItems: NavItem[] = [
   { label: 'For Corporate', href: '/corporate', isActive: false },
   { label: 'For Individuals', href: '/individuals', isActive: false },
 ];
 
-const secondaryNavItems: SecondaryNavItem[] = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-];
-
 export function Header({ className }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showLogo, setShowLogo] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Get the hero section height (assuming it's full viewport height)
-      const heroHeight = window.innerHeight;
-      const scrollPosition = window.scrollY;
-      
-      // Show logo when scrolled past hero section
-      setShowLogo(scrollPosition > heroHeight * 0.8);
-    };
+    if (isHomePage) {
+      const handleScroll = () => {
+        // Get the hero section height (assuming it's full viewport height)
+        const heroHeight = window.innerHeight;
+        const scrollPosition = window.scrollY;
+        
+        // Show logo when scrolled past hero section
+        setShowLogo(scrollPosition > heroHeight * 0.8);
+      };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    } else {
+      // For non-home pages, always show the logo
+      setShowLogo(true);
+    }
+  }, [isHomePage]);
 
   return (
     <header className={cn(
@@ -127,13 +127,15 @@ export function Header({ className }: HeaderProps) {
               'transition-all duration-500 ease-in-out',
               showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             )}>
-              <Image
-                src="/icons/icon_logo.svg"
-                alt="Crafted Experiences Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8"
-              />
+              <Link href="/" className="block">
+                <Image
+                  src="/icons/icon_logo.svg"
+                  alt="Crafted Experiences Logo"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8 hover:opacity-80 transition-opacity cursor-pointer"
+                />
+              </Link>
             </div>
           </div>
 
@@ -155,35 +157,25 @@ export function Header({ className }: HeaderProps) {
                 />
               </svg>
               <a
-                href="tel:+1234567890"
+                href="tel:+21628780000"
                 className="text-cream hover:text-charcoal transition-colors duration-200 text-xs sm:text-sm font-medium"
               >
-                +1 (234) 567-890
+                +216 28 780 000
               </a>
             </div>
 
-            {/* Secondary Navigation - Hidden on mobile */}
-            <nav className="hidden md:flex items-center space-x-3">
-              {secondaryNavItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-cream/80 hover:text-charcoal transition-colors duration-200 text-sm font-medium"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
 
             {/* CTA Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream font-semibold text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
-            >
-              <span className="hidden sm:inline">Get a Quote</span>
-              <span className="sm:hidden">Quote</span>
-            </Button>
+            <Link href="/contact">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream font-semibold text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 cursor-pointer"
+              >
+                <span className="hidden sm:inline">Enquire now</span>
+                <span className="sm:hidden">Enquire</span>
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -206,18 +198,6 @@ export function Header({ className }: HeaderProps) {
               ))}
             </div>
 
-            {/* Secondary Nav Items */}
-            <div className="space-y-1 pt-2 border-t border-black/20 mt-2">
-              {secondaryNavItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="block text-cream/80 hover:text-charcoal transition-colors duration-200 text-xs py-1"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
           </nav>
         </div>
       </div>

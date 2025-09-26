@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout';
-import { Hero, OurServices, IntroWithTestimonials, WhyChooseUs } from '@/components/sections';
+import { Hero, OurServices, CaseStudy, IntroWithTestimonials, WhyChooseUs } from '@/components/sections';
 
 export default function Home() {
 
@@ -17,6 +17,9 @@ export default function Home() {
 
       {/* Services Section */}
       <OurServices />
+
+      {/* Case Study Section */}
+      <CaseStudy />
 
       {/* Why Choose Us Section */}
       <WhyChooseUs />

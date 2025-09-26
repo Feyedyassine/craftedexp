@@ -4,24 +4,35 @@ interface IntroWithTestimonialsProps {
   className?: string;
 }
 
-const testimonials = [
+interface Testimonial {
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  companyLink?: string;
+}
+
+const testimonials: Testimonial[] = [
   {
-    quote: "Crafted Experiences transformed our annual conference into an unforgettable event that exceeded all expectations.",
-    author: "Sarah Johnson",
-    role: "Marketing Director",
-    company: "TechCorp",
+    quote: "Thank you for all you did to make my brief time at the Four Seasons in Tunis such a grand success. It means a lot to me and to the WFP team working so hard to improve the lives of children all over the region. I hope the rest of the Forum goes well. All the best and hope to see you again soon.",
+    author: "David Beasley",
+    role: "Executive Director",
+    company: "WFP",
+    companyLink: "https://www.wfp.org/",
   },
   {
-    quote: "Our family vacation to Morocco was absolutely magical. Every detail was perfectly orchestrated.",
-    author: "Michael Chen",
-    role: "Executive",
-    company: "Global Finance",
+    quote: "Working with Crafted Experiences has been an absolute pleasure. They helped us organize our shooting for Darana in Tunis, and everything was handled with outstanding professionalism and care. Their attention to detail, creativity, and dedication made the whole experience seamless. I couldn't recommend them more.",
+    author: "Eric Belkhiria",
+    role: "Co-Founder",
+    company: "Darana",
+    companyLink: "https://darana.ch",
   },
   {
-    quote: "The attention to detail and personalized service made our corporate retreat an exceptional success.",
-    author: "Emily Rodriguez",
-    role: "HR Director",
-    company: "InnovateTech",
+    quote: "Our team building event in Bizerte, organized by Crafted Experiences, exceeded all expectations. The program was thoughtfully designed to balance fun activities with meaningful team engagement, and it truly strengthened the bonds within our company. The attention to detail made the whole experience seamless and enjoyable for everyone.",
+    author: "Feyed Belkhiria",
+    role: "Managing Director",
+    company: "Grafen",
+    companyLink: "https://grafen.tn",
   },
 ];
 
@@ -53,7 +64,18 @@ export function IntroWithTestimonials({ className }: IntroWithTestimonialsProps)
                   {testimonial.author}
                 </div>
                 <div className="text-xs sm:text-sm text-charcoal/70">
-                  {testimonial.role}, {testimonial.company}
+                  {testimonial.role}, {testimonial.companyLink ? (
+                    <a 
+                      href={testimonial.companyLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-charcoal hover:text-charcoal/80 underline"
+                    >
+                      {testimonial.company}
+                    </a>
+                  ) : (
+                    testimonial.company
+                  )}
                 </div>
               </div>
             </div>

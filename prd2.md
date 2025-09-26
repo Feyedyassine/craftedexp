@@ -130,7 +130,7 @@ The landing page embodies the refined, exclusive nature of Crafted Experiences t
 
 /* Typography */
 --Headlines: OPTICopperplate (Display font)
---Body: Oswald (Sans-serif)
+--Body: Roboto Condensed (Sans-serif)
 ```
 
 ### Component Structure

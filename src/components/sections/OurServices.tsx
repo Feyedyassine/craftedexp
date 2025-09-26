@@ -13,10 +13,10 @@ const OurServices: React.FC<OurServicesProps> = ({ className }) => {
 
   const corporateServices = [
     {
-      id: 'corporate-events',
+      id: 'trade-shows',
       image: '/images/corporatevent.jpg',
-      title: 'Corporate Events',
-      description: 'Professional event planning and execution for corporate clients with measurable ROI and seamless coordination.',
+      title: 'Trade Shows',
+      description: 'Professional trade show planning and execution for corporate clients with measurable ROI and seamless coordination.',
     },
     {
       id: 'conferences',
@@ -147,7 +147,7 @@ const OurServices: React.FC<OurServicesProps> = ({ className }) => {
                   </div>
                   
                    {/* Title - Always visible, positioned above description */}
-                   <div>
+                   <div className="mb-2 sm:mb-3">
                      <h3 className="text-cream text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-display leading-tight break-words">
                        {service.title}
                      </h3>
