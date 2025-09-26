@@ -1,5 +1,5 @@
 import { Header, Footer } from '@/components/layout';
-import { Hero, OurServices, CaseStudy, IntroWithTestimonials, WhyChooseUs } from '@/components/sections';
+import { Hero, OurServices, CaseStudy, IntroWithTestimonials, WhyChooseUs, CTA } from '@/components/sections';
 
 export default function Home() {
 
@@ -23,6 +23,9 @@ export default function Home() {
 
       {/* Why Choose Us Section */}
       <WhyChooseUs />
+
+      {/* CTA Section */}
+      <CTA />
 
       {/* Footer */}
       <Footer />

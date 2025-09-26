@@ -1,17 +1,21 @@
 'use client';
 
-import { Header } from '@/components/layout';
-import { Container, Section, H2, Body, Button } from '@/components/ui';
+import { Header, Footer } from '@/components/layout';
+import { Container, Section, H2, Body } from '@/components/ui';
+import { CTA, CaseStudyNavigation } from '@/components/sections';
 import Image from 'next/image';
 
 export default function GreenGrowthSummitPage() {
   return (
-    <div className="min-h-screen bg-sand">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <Header />
+      
+      {/* Sticky Case Study Navigation */}
+      <CaseStudyNavigation currentId="green-growth-summit" />
 
       {/* Hero Section */}
-      <Section background="sand" padding="none" className="relative">
+      <Section background="white" padding="none" className="relative">
         <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px]">
           <Image
             src="/images/greensummit.jpg"
@@ -31,7 +35,7 @@ export default function GreenGrowthSummitPage() {
       </Section>
 
       {/* Content Section */}
-      <Section background="sand" padding="lg">
+      <Section background="white" padding="lg">
         <Container size="lg">
           <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 px-4 sm:px-0">
             
@@ -152,18 +156,15 @@ export default function GreenGrowthSummitPage() {
             </div>
 
             {/* Back to Homepage Button */}
-            <div className="text-center pt-8">
-              <Button 
-                variant="outline" 
-                className="bg-charcoal text-cream border-charcoal hover:bg-cream hover:text-charcoal"
-                onClick={() => window.location.href = '/'}
-              >
-                Back to Homepage
-              </Button>
-            </div>
           </div>
         </Container>
       </Section>
+
+      {/* CTA Section */}
+      <CTA />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

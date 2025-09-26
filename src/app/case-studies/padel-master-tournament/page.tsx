@@ -1,13 +1,17 @@
 'use client';
 
-import { Header } from '@/components/layout';
-import { Section, Container, H2, Body, Button } from '@/components/ui';
+import { Header, Footer } from '@/components/layout';
+import { Section, Container, H2, Body } from '@/components/ui';
+import { CTA, CaseStudyNavigation } from '@/components/sections';
 import Image from 'next/image';
 
 export default function PadelMasterTournamentPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      
+      {/* Sticky Case Study Navigation */}
+      <CaseStudyNavigation currentId="padel-master-tournament" />
       
       {/* Hero Section */}
       <Section background="white" padding="none" className="relative">
@@ -30,58 +34,62 @@ export default function PadelMasterTournamentPage() {
       </Section>
 
       {/* Content Section */}
-      <Section background="white" padding="lg" className="space-y-6 sm:space-y-8 px-4 sm:px-0">
+      <Section background="white" padding="lg" className="py-8 sm:py-16 lg:py-20">
         <Container size="xl">
           {/* Project Details */}
-          <div className="bg-sand p-6 rounded-lg mb-8">
-            <H2 className="text-xl font-display mb-4">Project Details</H2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+          <div className="bg-sand p-4 sm:p-6 lg:p-8 xl:p-10 rounded-lg mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-xl sm:text-2xl lg:text-3xl font-display mb-4 sm:mb-6">Project Details</H2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
+              <div className="text-sm sm:text-base lg:text-lg">
                 <strong>Client:</strong> Magic Hôtels
               </div>
-              <div>
+              <div className="text-sm sm:text-base lg:text-lg">
                 <strong>Date:</strong> April 17 – May 3, 2025
               </div>
-              <div>
+              <div className="text-sm sm:text-base lg:text-lg">
                 <strong>Location:</strong> Magic Hôtel El Manar, Hammamet
               </div>
-              <div>
+              <div className="text-sm sm:text-base lg:text-lg">
                 <strong>Prize Money:</strong> Over 75,000 DT
               </div>
             </div>
           </div>
 
           {/* Context & Objectives */}
-          <div className="space-y-4 sm:space-y-6">
-            <H2 className="text-2xl sm:text-3xl font-display">Context & Objectives</H2>
-            <Body className="text-lg">
-              Magic Hôtels wanted to create a <strong>flagship national sports event</strong> that would showcase the growing popularity of padel in Tunisia, strengthen its brand visibility, and engage both players and fans in a vibrant atmosphere. The <strong>Padel Master Tournament</strong> was designed to:
-            </Body>
-            <ul className="list-disc list-inside space-y-2 text-lg">
-              <li>Offer a professional and entertaining competition exclusively for Tunisia&apos;s top padel players.</li>
-              <li>Position Magic Hôtel El Manar as a destination for both leisure and sports excellence.</li>
-              <li>Deliver an engaging spectacle combining competition, hospitality, and entertainment.</li>
-              <li>Elevate the status of padel in Tunisia through a well-structured, high-quality tournament.</li>
-            </ul>
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-4 sm:mb-6 lg:mb-8">Context & Objectives</H2>
+            <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+              <Body className="text-base sm:text-lg lg:text-xl leading-relaxed">
+                Magic Hôtels wanted to create a <strong>flagship national sports event</strong> that would showcase the growing popularity of padel in Tunisia, strengthen its brand visibility, and engage both players and fans in a vibrant atmosphere. The <strong>Padel Master Tournament</strong> was designed to:
+              </Body>
+              <ul className="list-disc list-inside space-y-2 sm:space-y-3 lg:space-y-4 text-base sm:text-lg lg:text-xl leading-relaxed pl-4 sm:pl-6">
+                <li>Offer a professional and entertaining competition exclusively for Tunisia&apos;s top padel players.</li>
+                <li>Position Magic Hôtel El Manar as a destination for both leisure and sports excellence.</li>
+                <li>Deliver an engaging spectacle combining competition, hospitality, and entertainment.</li>
+                <li>Elevate the status of padel in Tunisia through a well-structured, high-quality tournament.</li>
+              </ul>
+            </div>
           </div>
 
           {/* Creative Concept */}
-          <div className="space-y-4 sm:space-y-6">
-            <H2 className="text-2xl sm:text-3xl font-display">Creative Concept</H2>
-            <Body className="text-lg">
-              The tournament was built around three core pillars: <strong>competition, community, and celebration.</strong>
-            </Body>
-            <ul className="list-disc list-inside space-y-2 text-lg">
-              <li><strong>Competition:</strong> Over two weeks, the country&apos;s best padel players faced off in high-intensity matches for more than <strong>75,000 DT in prize money</strong>.</li>
-              <li><strong>Community:</strong> The event created a friendly yet prestigious environment, attracting sports enthusiasts, local fans, and hotel guests.</li>
-              <li><strong>Celebration:</strong> Beyond the courts, the event included entertainment, hospitality experiences, and opportunities for guests to engage with the players and the sport.</li>
-            </ul>
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-4 sm:mb-6 lg:mb-8">Creative Concept</H2>
+            <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+              <Body className="text-base sm:text-lg lg:text-xl leading-relaxed">
+                The tournament was built around three core pillars: <strong>competition, community, and celebration.</strong>
+              </Body>
+              <ul className="list-disc list-inside space-y-2 sm:space-y-3 lg:space-y-4 text-base sm:text-lg lg:text-xl leading-relaxed pl-4 sm:pl-6">
+                <li><strong>Competition:</strong> Over two weeks, the country&apos;s best padel players faced off in high-intensity matches for more than <strong>75,000 DT in prize money</strong>.</li>
+                <li><strong>Community:</strong> The event created a friendly yet prestigious environment, attracting sports enthusiasts, local fans, and hotel guests.</li>
+                <li><strong>Celebration:</strong> Beyond the courts, the event included entertainment, hospitality experiences, and opportunities for guests to engage with the players and the sport.</li>
+              </ul>
+            </div>
           </div>
 
           {/* Execution */}
-          <div className="space-y-4 sm:space-y-6">
-            <H2 className="text-2xl sm:text-3xl font-display">Execution</H2>
-            <ul className="list-disc list-inside space-y-2 text-lg">
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-4 sm:mb-6 lg:mb-8">Execution</H2>
+            <ul className="list-disc list-inside space-y-2 sm:space-y-3 lg:space-y-4 text-base sm:text-lg lg:text-xl leading-relaxed pl-4 sm:pl-6">
               <li><strong>Tournament Setup:</strong> Professional padel courts prepared to international standards, with seating for spectators.</li>
               <li><strong>Player Management:</strong> Coordination with the best Tunisian players, match scheduling, refereeing, and prize distribution.</li>
               <li><strong>Hospitality & Guest Experience:</strong> Integration of Magic Hôtel El Manar&apos;s premium services — accommodations, catering, and entertainment — to create a festival-like atmosphere.</li>
@@ -91,9 +99,9 @@ export default function PadelMasterTournamentPage() {
           </div>
 
           {/* Event Highlights */}
-          <div className="space-y-4 sm:space-y-6">
-            <H2 className="text-2xl sm:text-3xl font-display">Event Highlights</H2>
-            <ul className="list-disc list-inside space-y-2 text-lg">
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-4 sm:mb-6 lg:mb-8">Event Highlights</H2>
+            <ul className="list-disc list-inside space-y-2 sm:space-y-3 lg:space-y-4 text-base sm:text-lg lg:text-xl leading-relaxed pl-4 sm:pl-6">
               <li><strong>Over 75,000 DT prize money</strong> awarded, setting a new benchmark for padel in Tunisia.</li>
               <li><strong>Top-level competition</strong> featuring the country&apos;s best players in a friendly yet professional setting.</li>
               <li><strong>Strong audience turnout</strong> with enthusiastic spectators supporting matches throughout the tournament.</li>
@@ -102,9 +110,9 @@ export default function PadelMasterTournamentPage() {
           </div>
 
           {/* Results & Impact */}
-          <div className="space-y-4 sm:space-y-6">
-            <H2 className="text-2xl sm:text-3xl font-display">Results & Impact</H2>
-            <ul className="list-disc list-inside space-y-2 text-lg">
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-4 sm:mb-6 lg:mb-8">Results & Impact</H2>
+            <ul className="list-disc list-inside space-y-2 sm:space-y-3 lg:space-y-4 text-base sm:text-lg lg:text-xl leading-relaxed pl-4 sm:pl-6">
               <li><strong>National recognition:</strong> Positioned Magic Hôtel El Manar as a key venue for sports and lifestyle events.</li>
               <li><strong>Brand engagement:</strong> Strengthened Magic Hôtels&apos; image as a promoter of culture, wellness, and community.</li>
               <li><strong>Sporting legacy:</strong> Contributed to the growth of padel in Tunisia by organizing one of the country&apos;s most prestigious tournaments.</li>
@@ -113,9 +121,9 @@ export default function PadelMasterTournamentPage() {
           </div>
 
           {/* Our Value Added */}
-          <div className="space-y-4 sm:space-y-6">
-            <H2 className="text-2xl sm:text-3xl font-display">Our Value Added</H2>
-            <ul className="list-disc list-inside space-y-2 text-lg">
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-4 sm:mb-6 lg:mb-8">Our Value Added</H2>
+            <ul className="list-disc list-inside space-y-2 sm:space-y-3 lg:space-y-4 text-base sm:text-lg lg:text-xl leading-relaxed pl-4 sm:pl-6">
               <li>Expertise in <strong>sports event management</strong>, from planning to execution.</li>
               <li>Ability to blend <strong>hospitality with high-level competition</strong>, creating a unique experience for both players and audiences.</li>
               <li>Strong coordination across <strong>logistics, media, and guest relations</strong> to ensure a seamless event.</li>
@@ -123,19 +131,14 @@ export default function PadelMasterTournamentPage() {
             </ul>
           </div>
 
-          {/* Back to Homepage Button */}
-          <div className="text-center pt-8">
-            <Button 
-              onClick={() => window.location.href = '/'}
-              variant="outline"
-              size="lg"
-              className="bg-charcoal text-cream border-charcoal hover:bg-cream hover:text-charcoal"
-            >
-              Back to Homepage
-            </Button>
-          </div>
         </Container>
       </Section>
+
+      {/* CTA Section */}
+      <CTA />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

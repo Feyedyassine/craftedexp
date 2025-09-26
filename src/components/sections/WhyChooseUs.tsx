@@ -37,9 +37,9 @@ export function WhyChooseUs({ className }: WhyChooseUsProps) {
   return (
     <Section background="white" padding="lg" className={className}>
       <Container>
-        <div className="text-center lg:text-left mb-8 sm:mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <H2 className="text-charcoal text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display mb-2">
-            Why Choose Us
+            Why Choose Us?
           </H2>
           <Body className="text-charcoal/70 text-sm md:text-base">
             What sets us apart in creating exceptional experiences

@@ -5,5 +5,7 @@ export { CaseStudy } from './CaseStudy';
 export { Testimonials } from './Testimonials';
 export { IntroWithTestimonials } from './IntroWithTestimonials';
 export { WhyChooseUs } from './WhyChooseUs';
+export { CTA } from './CTA';
+export { CaseStudyNavigation } from './CaseStudyNavigation';
 export { ContactForm } from './ContactForm';
 export { ContactInfo } from './ContactInfo';
