@@ -29,7 +29,7 @@ export default function ForCorporatePage() {
         firstService={{
           title: "Trade Shows",
           description: "We design trade show experiences that go beyond logistics; helping your brand stand out, connect with the right audience, and leave a lasting impression. From booth design to full event management, every element is curated for maximum impact and seamless execution.",
-          image: "/images/corporatevent.jpg",
+          image: "/images/tradeshow.webp",
           imageAlt: "Trade Shows",
           features: [
             "Strategic booth design and layout optimization",
@@ -40,7 +40,7 @@ export default function ForCorporatePage() {
         secondService={{
           title: "Incentive Trips",
           description: "Reward and inspire your top performers with journeys that celebrate achievement in style. Our incentive trips combine exclusive destinations, immersive cultural encounters, and thoughtful touches that turn recognition into unforgettable memories.",
-          image: "/images/trip.jpg",
+          image: "/images/trip.webp",
           imageAlt: "Incentive Trips",
           features: [
             "Exclusive destination selection and planning",
@@ -55,7 +55,7 @@ export default function ForCorporatePage() {
         firstService={{
           title: "Conferences",
           description: "From intimate executive forums to large-scale industry gatherings, we deliver conferences that run flawlessly. With meticulous planning, cutting-edge technology, and a focus on delegate engagement, we create platforms that foster knowledge, networking, and growth.",
-          image: "/images/conference.jpg",
+          image: "/images/conference.webp",
           imageAlt: "Conferences",
           features: [
             "End-to-end conference planning and execution",
@@ -66,7 +66,7 @@ export default function ForCorporatePage() {
         secondService={{
           title: "Team Building",
           description: "Strengthen bonds, spark creativity, and build resilience with tailor-made team-building programs. Whether outdoors in nature or through innovative workshops, our experiences are designed to energize teams and align them with your company's vision.",
-          image: "/images/teambuilding.jpg",
+          image: "/images/teambuilding.webp",
           imageAlt: "Team Building",
           features: [
             "Customized team-building program design",
@@ -111,7 +111,7 @@ export default function ForCorporatePage() {
             <div className="order-1 lg:order-2">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
                 <Image
-                  src="/images/productlaunch.jpg"
+                  src="/images/productlaunch.webp"
                   alt="Product Launch"
                   fill
                   className="object-cover"

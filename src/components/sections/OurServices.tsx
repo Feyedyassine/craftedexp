@@ -14,31 +14,31 @@ const OurServices: React.FC<OurServicesProps> = ({ className }) => {
   const corporateServices = [
     {
       id: 'trade-shows',
-      image: '/images/corporatevent.jpg',
+      image: '/images/tradeshow.webp',
       title: 'Trade Shows',
       description: 'Professional trade show planning and execution for corporate clients with measurable ROI and seamless coordination.',
     },
     {
       id: 'conferences',
-      image: '/images/conference.jpg',
+      image: '/images/conference.webp',
       title: 'Conferences',
       description: 'Large-scale conference management with state-of-the-art facilities and comprehensive support services.',
     },
     {
       id: 'incentive-trips',
-      image: '/images/trip.jpg',
+      image: '/images/trip.webp',
       title: 'Incentive Trips',
       description: 'Reward and motivate your team with carefully designed incentive travel programs that inspire and engage.',
     },
     {
       id: 'team-building',
-      image: '/images/teambuilding.jpg',
+      image: '/images/teambuilding.webp',
       title: 'Team Building',
       description: 'Creative team building experiences that strengthen relationships and boost workplace collaboration.',
     },
     {
       id: 'product-launches',
-      image: '/images/productlaunch.jpg',
+      image: '/images/productlaunch.webp',
       title: 'Product Launches',
       description: 'Memorable product launch events that create buzz and generate maximum impact in the market.',
     },
@@ -47,31 +47,31 @@ const OurServices: React.FC<OurServicesProps> = ({ className }) => {
   const individualServices = [
     {
       id: 'luxury-travel',
-      image: '/images/luxurytravel.jpg',
+      image: '/images/luxurytravel.webp',
       title: 'Luxury Travel',
       description: 'Personalized travel experiences crafted for discerning travelers seeking authentic moments and exclusive access.',
     },
     {
       id: 'honeymoon',
-      image: '/images/Honeymoon.jpg',
+      image: '/images/Honeymoon.webp',
       title: 'Honeymoon',
       description: 'Romantic getaways designed for couples celebrating their special union with unforgettable experiences.',
     },
     {
       id: 'family-trips',
-      image: '/images/familytrip.jpg',
+      image: '/images/familytrip.webp',
       title: 'Family Trips',
       description: 'Memorable family vacations that create lasting bonds and provide fun for all ages.',
     },
     {
       id: 'solo-travel',
-      image: '/images/solotravel.jpg',
+      image: '/images/solotravel.webp',
       title: 'Solo Travel',
       description: 'Empowering solo adventures that offer personal growth, self-discovery, and meaningful connections.',
     },
     {
       id: 'adventure-travel',
-      image: '/images/adventure.jpg',
+      image: '/images/adventure.webp',
       title: 'Adventure Travel',
       description: 'Thrilling outdoor experiences for adrenaline seekers and nature enthusiasts.',
     },

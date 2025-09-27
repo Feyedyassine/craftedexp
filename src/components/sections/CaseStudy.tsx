@@ -38,7 +38,7 @@ const caseStudies: CaseStudyData[] = [
     challenge: 'Host a summit that not only inspired climate ambition but also fostered meaningful cross-sector collaboration and positioned Tunisia as a hub for green transition in the region.',
     solution: 'Our agency delivered an impactful event with dynamic programming, eco-inspired staging, seamless logistics, and strong engagement strategies to amplify voices and connections.',
     results: 'Powerful regional dialogue, strengthened stakeholder networks, amplified media visibility, and renewed momentum for a just, green transition in Tunisia and beyond.',
-    image: '/images/greensummit.jpg',
+    image: '/images/greensummit.webp',
     imageAlt: 'Green Growth Summit event'
   },
   {
@@ -58,7 +58,7 @@ const caseStudies: CaseStudyData[] = [
     challenge: 'Organize a high-profile, 100% Tunisian tournament that combined professionalism, intensity, and entertainment, while positioning Magic Hôtels as a leader in sports and hospitality.',
     solution: 'We delivered a turnkey event with professional courts, seamless logistics, premium hospitality, and dynamic promotion — ensuring both players and guests experienced the highest standards.',
     results: 'Over 75,000 DT in prize money awarded, strong media visibility, unforgettable experiences for players and fans, and reinforced Magic Hôtels\' role in growing padel and hosting world-class events in Tunisia.',
-    image: '/images/padel.jpeg',
+    image: '/images/padel.webp',
     imageAlt: 'Padel Master Tournament at Magic Hôtel El Manar'
   }
 ];

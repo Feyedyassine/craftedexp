@@ -18,7 +18,7 @@ export default function GreenGrowthSummitPage() {
       <Section background="white" padding="none" className="relative">
         <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px]">
           <Image
-            src="/images/greensummit.jpg"
+            src="/images/greensummit.webp"
             alt="Green Growth Summit event"
             fill
             className="object-cover"

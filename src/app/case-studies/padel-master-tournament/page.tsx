@@ -17,7 +17,7 @@ export default function PadelMasterTournamentPage() {
       <Section background="white" padding="none" className="relative">
         <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px]">
           <Image
-            src="/images/padel.jpeg"
+            src="/images/padel.webp"
             alt="Padel Master Tournament at Magic Hôtel El Manar"
             fill
             className="object-cover"

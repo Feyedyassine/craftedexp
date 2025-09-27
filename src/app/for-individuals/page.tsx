@@ -15,7 +15,7 @@ export default function ForIndividualsPage() {
         <Container size="xl">
           <div className="text-center max-w-4xl mx-auto">
             <H1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display mb-6 text-charcoal">
-              Individual Excellence
+              Personal Journeys
             </H1>
             <Body className="text-lg sm:text-xl lg:text-2xl text-charcoal/80 leading-relaxed">
               Discover extraordinary journeys crafted exclusively for you. From luxury escapes to adventure expeditions, we design experiences that match your unique desires and create memories that last a lifetime.
@@ -29,7 +29,7 @@ export default function ForIndividualsPage() {
         firstService={{
           title: "Luxury Travel",
           description: "For those who seek the extraordinary, we craft journeys that redefine luxury. Each itinerary is bespoke, combining handpicked destinations, unique experiences, and impeccable service, with every detail refined to perfection.",
-          image: "/images/luxurytravel.jpg",
+          image: "/images/luxurytravel2.webp",
           imageAlt: "Luxury Travel",
           features: [
             "Bespoke itinerary design and planning",
@@ -40,7 +40,7 @@ export default function ForIndividualsPage() {
         secondService={{
           title: "Honeymoon",
           description: "Begin your forever with a journey as unique as your love story. From secluded beach escapes to cultural adventures, we create honeymoons that balance romance, discovery, and unforgettable moments made just for two.",
-          image: "/images/Honeymoon.jpg",
+          image: "/images/honeymoon2.webp",
           imageAlt: "Honeymoon",
           features: [
             "Romantic destination selection and planning",
@@ -55,7 +55,7 @@ export default function ForIndividualsPage() {
         firstService={{
           title: "Family Trips",
           description: "Traveling together becomes effortless when every generation is cared for. Our family trips are designed with balance in mind; engaging activities for children, relaxation for adults, and meaningful experiences to enjoy together.",
-          image: "/images/familytrip.jpg",
+          image: "/images/familytrip2.webp",
           imageAlt: "Family Trips",
           features: [
             "Multi-generational trip planning and coordination",
@@ -66,7 +66,7 @@ export default function ForIndividualsPage() {
         secondService={{
           title: "Solo Travel",
           description: "For the independent explorer, we curate solo journeys that combine freedom with security. Each experience is designed to empower discovery, while ensuring comfort and authentic encounters along the way.",
-          image: "/images/solotravel.jpg",
+          image: "/images/solotravel.webp",
           imageAlt: "Solo Travel",
           features: [
             "Independent journey curation and planning",
@@ -111,7 +111,7 @@ export default function ForIndividualsPage() {
             <div className="order-1 lg:order-2">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
                 <Image
-                  src="/images/adventure.jpg"
+                  src="/images/adventure.webp"
                   alt="Adventure Travel"
                   fill
                   className="object-cover"
