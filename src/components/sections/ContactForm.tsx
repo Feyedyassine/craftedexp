@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { H2, Button, DualRangeSlider, CountrySelector, PhoneInput } from '@/components/ui';
 import { useGeolocation } from '@/hooks';
+import countries from 'world-countries';
 
 interface ContactFormProps {
   className?: string;
@@ -38,6 +39,15 @@ export function ContactForm({ className }: ContactFormProps) {
     }).format(value);
   };
 
+  const getCountryNames = (countryCodes: string[]): string => {
+    return countryCodes
+      .map(code => {
+        const country = countries.find(c => c.cca2 === code);
+        return country ? country.name.common : code;
+      })
+      .join(', ');
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -55,14 +65,16 @@ export function ContactForm({ className }: ContactFormProps) {
         company: formData.get('company') as string || '',
         message: buildMessage(formData),
         type: activeTab,
-        countries: selectedCountries.join(', '),
+        countries: getCountryNames(selectedCountries),
         budget: activeTab === 'corporate' ? corporateBudget : individualBudget,
         service: formData.get('service') as string || '',
         attendees: formData.get('attendees') as string || '',
         date: formData.get('date') as string || '',
         duration: formData.get('duration') as string || '',
         people: formData.get('people') as string || '',
-        source: formData.get('source') as string || ''
+        source: formData.get('source') as string || '',
+        comments: formData.get('comments') as string || '',
+        requirements: formData.get('requirements') as string || ''
       };
 
       const response = await fetch('/api/contact', {
@@ -85,9 +97,10 @@ export function ContactForm({ className }: ContactFormProps) {
         setIndividualBudget({ min: 500, max: 50000 });
       } else {
         setSubmitStatus('error');
-        setErrorMessage(result.error || 'Failed to send message');
+        setErrorMessage(result.error || `Server error: ${response.status}`);
       }
-    } catch {
+    } catch (error) {
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
       setErrorMessage('Network error. Please try again.');
     } finally {
@@ -95,30 +108,10 @@ export function ContactForm({ className }: ContactFormProps) {
     }
   };
 
-  const buildMessage = (formData: FormData): string => {
-    let message = '';
-    
-    if (activeTab === 'individuals') {
-      message = `Trip Details:\n`;
-      message += `- Destinations: ${selectedCountries.join(', ') || 'Not specified'}\n`;
-      message += `- Travel Date: ${formData.get('date') || 'Not specified'}\n`;
-      message += `- Duration: ${formData.get('duration') || 'Not specified'}\n`;
-      message += `- Number of People: ${formData.get('people') || 'Not specified'}\n`;
-      message += `- Budget: ${formatCurrency(individualBudget.min)} - ${formatCurrency(individualBudget.max)}\n`;
-      message += `- Additional Comments: ${formData.get('comments') || 'None'}\n\n`;
-    } else {
-      message = `Corporate Service Details:\n`;
-      message += `- Service: ${formData.get('service') || 'Not specified'}\n`;
-      message += `- Company: ${formData.get('company') || 'Not specified'}\n`;
-      message += `- Attendees: ${formData.get('attendees') || 'Not specified'}\n`;
-      message += `- Preferred Date: ${formData.get('date') || 'Not specified'}\n`;
-      message += `- Budget: ${formatCurrency(corporateBudget.min)} - ${formatCurrency(corporateBudget.max)}\n`;
-      message += `- Requirements: ${formData.get('requirements') || 'None'}\n\n`;
-    }
-    
-    message += `How did you hear about us: ${formData.get('source') || 'Not specified'}`;
-    
-    return message;
+  const buildMessage = (_formData: FormData): string => {
+    // This function is no longer used since we're sending individual fields
+    // But keeping it for backward compatibility
+    return 'Form data sent in separate fields';
   };
 
   return (

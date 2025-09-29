@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import countries from 'world-countries';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -60,8 +61,31 @@ function sanitizeInput(input: string): string {
     .substring(0, 1000); // Limit length
 }
 
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function getCountryName(countryCode: string): string {
+  const country = countries.find(c => c.cca2 === countryCode);
+  return country ? country.name.common : countryCode;
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Check if Resend API key is available
+    if (!process.env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY is not set');
+      return NextResponse.json(
+        { error: 'Email service not configured' },
+        { status: 500 }
+      );
+    }
+
     // Get client IP
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
                request.headers.get('x-real-ip') || 
@@ -117,81 +141,178 @@ export async function POST(request: NextRequest) {
           <title>New Contact Form Submission</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 20px; background-color: #f5f5f5; }
-            .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-            .header { background: #0d1f2d; color: white; padding: 30px; text-align: center; }
-            .logo { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-            .subtitle { font-size: 14px; opacity: 0.8; }
-            .content { padding: 30px; }
-            .field { margin-bottom: 20px; }
-            .label { font-weight: bold; color: #0d1f2d; margin-bottom: 5px; display: block; }
-            .value { background: #f8f9fa; padding: 12px; border-radius: 4px; border-left: 4px solid #0d1f2d; }
-            .message { background: #f8f9fa; padding: 15px; border-radius: 4px; border-left: 4px solid #0d1f2d; white-space: pre-wrap; }
-            .location { background: #e8f4f8; padding: 15px; border-radius: 4px; margin-top: 20px; }
-            .location-title { font-weight: bold; color: #0d1f2d; margin-bottom: 10px; }
-            .footer { background: #f8f9fa; padding: 20px; text-align: center; font-size: 12px; color: #666; }
-            .timestamp { color: #666; font-size: 12px; margin-top: 20px; }
+            .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+            .header { background: linear-gradient(135deg, #0d1f2d 0%, #1a2f3f 100%); color: white; padding: 40px 30px; text-align: center; }
+            .logo { width: 200px; height: auto; margin-bottom: 15px; }
+            .subtitle { font-size: 16px; opacity: 0.9; margin-bottom: 10px; }
+            .enquiry-type { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; display: inline-block; font-size: 14px; font-weight: 600; }
+            .content { padding: 40px; }
+            .section { margin-bottom: 35px; }
+            .section-title { font-size: 18px; font-weight: bold; color: #0d1f2d; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid #e8f4f8; }
+            .field { margin-bottom: 18px; }
+            .label { font-weight: 600; color: #0d1f2d; margin-bottom: 6px; display: block; font-size: 14px; }
+            .value { background: #f8f9fa; padding: 14px; border-radius: 6px; border-left: 4px solid #0d1f2d; font-size: 15px; }
+            .message { background: #f8f9fa; padding: 16px; border-radius: 6px; border-left: 4px solid #0d1f2d; white-space: pre-wrap; font-size: 15px; }
+            .location { background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%); padding: 20px; border-radius: 8px; margin-top: 25px; }
+            .location-title { font-weight: bold; color: #0d1f2d; margin-bottom: 15px; font-size: 16px; }
+            .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .location-item { font-size: 14px; }
+            .footer { background: #f8f9fa; padding: 25px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #e0e0e0; }
+            .timestamp { color: #666; font-size: 12px; margin-top: 25px; background: #f0f0f0; padding: 15px; border-radius: 6px; }
+            .timestamp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+            .budget-range { background: #e8f4f8; padding: 12px; border-radius: 6px; font-weight: 600; color: #0d1f2d; }
+            .countries { background: #f0f8ff; padding: 12px; border-radius: 6px; }
+            .empty-field { color: #999; font-style: italic; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <div class="logo">Crafted Experiences</div>
+              <img src="https://craftedexperiences.com/icons/logo_horizental.svg" alt="Crafted Experiences" class="logo" />
               <div class="subtitle">New Contact Form Submission</div>
+              <div class="enquiry-type">${body.type === 'corporate' ? '🏢 Corporate Enquiry' : '✈️ Individual Enquiry'}</div>
             </div>
             
             <div class="content">
-              <div class="field">
-                <span class="label">Name:</span>
-                <div class="value">${sanitizedData.name}</div>
+              <!-- Contact Information -->
+              <div class="section">
+                <div class="section-title">👤 Contact Information</div>
+                
+                <div class="field">
+                  <span class="label">Full Name:</span>
+                  <div class="value">${sanitizedData.name}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Email Address:</span>
+                  <div class="value">${sanitizedData.email}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Phone Number:</span>
+                  <div class="value">${sanitizedData.phone}</div>
+                </div>
+                
+                ${sanitizedData.company ? `
+                <div class="field">
+                  <span class="label">Company Name:</span>
+                  <div class="value">${sanitizedData.company}</div>
+                </div>
+                ` : ''}
               </div>
-              
-              <div class="field">
-                <span class="label">Email:</span>
-                <div class="value">${sanitizedData.email}</div>
+
+              ${body.type === 'individuals' ? `
+              <!-- Trip Details -->
+              <div class="section">
+                <div class="section-title">✈️ Trip Details</div>
+                
+                <div class="field">
+                  <span class="label">Destinations:</span>
+                  <div class="value countries">${body.countries || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Travel Date:</span>
+                  <div class="value">${body.date || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Duration:</span>
+                  <div class="value">${body.duration || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Number of People:</span>
+                  <div class="value">${body.people || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Budget Range:</span>
+                  <div class="value budget-range">${formatCurrency(body.budget?.min || 0)} - ${formatCurrency(body.budget?.max || 0)}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Additional Comments:</span>
+                  <div class="value">${body.comments || 'None'}</div>
+                </div>
               </div>
-              
-              <div class="field">
-                <span class="label">Phone:</span>
-                <div class="value">${sanitizedData.phone}</div>
+              ` : `
+              <!-- Corporate Service Details -->
+              <div class="section">
+                <div class="section-title">🏢 Corporate Service Details</div>
+                
+                <div class="field">
+                  <span class="label">Service Type:</span>
+                  <div class="value">${body.service || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Company Name:</span>
+                  <div class="value">${body.company || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Number of Attendees:</span>
+                  <div class="value">${body.attendees || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Preferred Date:</span>
+                  <div class="value">${body.date || 'Not specified'}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Budget Range:</span>
+                  <div class="value budget-range">${formatCurrency(body.budget?.min || 0)} - ${formatCurrency(body.budget?.max || 0)}</div>
+                </div>
+                
+                <div class="field">
+                  <span class="label">Event Objectives & Requirements:</span>
+                  <div class="value">${body.requirements || 'None'}</div>
+                </div>
               </div>
+              `}
               
-              ${sanitizedData.company ? `
-              <div class="field">
-                <span class="label">Company:</span>
-                <div class="value">${sanitizedData.company}</div>
-              </div>
-              ` : ''}
-              
-              <div class="field">
-                <span class="label">Message:</span>
-                <div class="message">${sanitizedData.message}</div>
+              <!-- Additional Information -->
+              <div class="section">
+                <div class="section-title">ℹ️ Additional Information</div>
+                
+                <div class="field">
+                  <span class="label">How did you hear about us:</span>
+                  <div class="value">${body.source || 'Not specified'}</div>
+                </div>
               </div>
               
               <div class="location">
                 <div class="location-title">📍 Location Information</div>
-                <div><strong>Country:</strong> ${country}</div>
-                <div><strong>City:</strong> ${city}</div>
-                <div><strong>Region:</strong> ${region}</div>
-                <div><strong>Timezone:</strong> ${timezone}</div>
+                <div class="location-grid">
+                  <div class="location-item"><strong>Country:</strong> ${getCountryName(country)}</div>
+                  <div class="location-item"><strong>City:</strong> ${city}</div>
+                  <div class="location-item"><strong>Region:</strong> ${region}</div>
+                  <div class="location-item"><strong>Timezone:</strong> ${timezone}</div>
+                </div>
               </div>
               
               <div class="timestamp">
-                <div><strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { 
-                  timeZone: timezone !== 'Unknown' ? timezone : 'UTC',
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric', 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                })}</div>
-                <div><strong>IP Address:</strong> ${ip}</div>
-                <div><strong>User Agent:</strong> ${userAgent}</div>
-                <div><strong>Referer:</strong> ${referer}</div>
+                <div class="timestamp-grid">
+                  <div><strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { 
+                    timeZone: timezone !== 'Unknown' ? timezone : 'UTC',
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}</div>
+                  <div><strong>IP Address:</strong> ${ip}</div>
+                  <div><strong>User Agent:</strong> ${userAgent.substring(0, 50)}...</div>
+                  <div><strong>Referer:</strong> ${referer}</div>
+                </div>
               </div>
             </div>
             
             <div class="footer">
-              This email was sent from the Crafted Experiences contact form.
+              This email was sent from the Crafted Experiences contact form.<br>
+              Please respond to this enquiry promptly to maintain excellent customer service.
             </div>
           </div>
         </body>
