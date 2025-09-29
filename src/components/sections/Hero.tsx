@@ -1,5 +1,5 @@
 import { Button, Body } from '@/components/ui';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 
 interface HeroProps {
   className?: string;
@@ -23,12 +23,14 @@ export function Hero({ className }: HeroProps) {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Logo SVG - Centered */}
         <div className="mb-8 sm:mb-12 lg:mb-16">
-          <Image
+          <SafariImage
             src="/icons/logo.svg"
             alt="Crafted Experiences Logo"
             width={400}
             height={200}
             className="mx-auto w-full max-w-[300px] sm:max-w-[350px] lg:max-w-[400px] h-auto"
+            priority
+            sizes="(max-width: 640px) 300px, (max-width: 1024px) 350px, 400px"
           />
         </div>
         

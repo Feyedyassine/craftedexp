@@ -3,7 +3,7 @@
 import { Header, Footer } from '@/components/layout';
 import { Container, Section, H2, Body } from '@/components/ui';
 import { CTA, CaseStudyNavigation } from '@/components/sections';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 
 export default function PorscheTaycanLaunchPage() {
   return (
@@ -16,12 +16,13 @@ export default function PorscheTaycanLaunchPage() {
 
       {/* Hero Section with Background Image */}
       <div className="relative h-64 sm:h-80 md:h-96 lg:h-[70vh] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
-        <Image
+        <SafariImage
           src="/images/porsche.webp"
           alt="Porsche Taycan launch event in Tunisia"
           fill
           className="object-cover"
           priority
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-charcoal/50" />
         <div className="absolute inset-0 flex items-center justify-center">

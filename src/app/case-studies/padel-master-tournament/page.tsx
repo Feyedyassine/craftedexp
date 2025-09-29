@@ -3,7 +3,7 @@
 import { Header, Footer } from '@/components/layout';
 import { Section, Container, H2, Body } from '@/components/ui';
 import { CTA, CaseStudyNavigation } from '@/components/sections';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 
 export default function PadelMasterTournamentPage() {
   return (
@@ -16,11 +16,13 @@ export default function PadelMasterTournamentPage() {
       {/* Hero Section */}
       <Section background="white" padding="none" className="relative">
         <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px]">
-          <Image
+          <SafariImage
             src="/images/padel.webp"
             alt="Padel Master Tournament at Magic Hôtel El Manar"
             fill
             className="object-cover"
+            priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-charcoal/40" />
           <div className="absolute inset-0 flex items-center justify-center">

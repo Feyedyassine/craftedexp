@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Container, Section, H2, Body, Button } from '@/components/ui';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 
 interface CaseStudyProps {
   className?: string;
@@ -182,12 +182,14 @@ export function CaseStudy({ className }: CaseStudyProps) {
             </div>
 
             {/* Image */}
-            <div className="relative h-64 sm:h-80 lg:h-96 xl:h-[500px] rounded-lg overflow-hidden order-1 lg:order-2">
-              <Image
+            <div className="relative h-64 sm:h-80 lg:h-96 xl:h-[500px] overflow-hidden order-1 lg:order-2">
+              <SafariImage
                 src={currentCaseStudy.image}
                 alt={currentCaseStudy.imageAlt}
                 fill
                 className="object-cover"
+                priority={currentIndex === 0}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/20 to-transparent" />
             </div>

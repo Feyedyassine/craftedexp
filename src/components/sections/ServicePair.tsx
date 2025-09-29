@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 import { Container, Section, H2, Body } from '@/components/ui';
 
 interface ServicePairProps {
@@ -51,11 +51,12 @@ const ServicePair: React.FC<ServicePairProps> = ({
             </div>
             <div className="order-1 lg:order-2">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
-                <Image
+                <SafariImage
                   src={firstService.image}
                   alt={firstService.imageAlt}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </div>
@@ -69,11 +70,12 @@ const ServicePair: React.FC<ServicePairProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
-                <Image
+                <SafariImage
                   src={secondService.image}
                   alt={secondService.imageAlt}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </div>

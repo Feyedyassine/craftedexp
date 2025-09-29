@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 import { Container, Section, H2, Body } from '@/components/ui';
 
 interface OurServicesProps {
@@ -126,11 +126,12 @@ const OurServices: React.FC<OurServicesProps> = ({ className }) => {
                className="relative h-64 sm:h-72 md:h-80 lg:h-96 xl:h-[500px] overflow-hidden group cursor-pointer"
              >
               {/* Background Image */}
-              <Image
+              <SafariImage
                 src={service.image}
                 alt={service.title}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               
               {/* Overlay */}

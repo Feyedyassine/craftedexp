@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 import { Container, H3, Body } from '@/components/ui';
 
 interface FooterProps {
@@ -16,12 +16,13 @@ export function Footer({ className }: FooterProps) {
             {/* Company Info */}
             <div className="space-y-4">
               <div className="mb-4">
-                <Image
+                <SafariImage
                   src="/icons/logo_horizental.svg"
                   alt="Crafted Experiences"
                   width={200}
                   height={60}
                   className="h-12 w-auto"
+                  sizes="200px"
                 />
               </div>
               <Body className="text-cream/80 text-sm sm:text-base leading-relaxed">

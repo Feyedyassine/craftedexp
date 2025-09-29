@@ -3,7 +3,7 @@
 import { Header, Footer } from '@/components/layout';
 import { Container, Section, H1, H2, Body } from '@/components/ui';
 import { CTA, ServicePair } from '@/components/sections';
-import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 
 export default function ForCorporatePage() {
   return (
@@ -110,11 +110,12 @@ export default function ForCorporatePage() {
             </div>
             <div className="order-1 lg:order-2">
               <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
-                <Image
+                <SafariImage
                   src="/images/productlaunch.webp"
                   alt="Product Launch"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </div>
