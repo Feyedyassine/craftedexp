@@ -48,14 +48,23 @@ export function ContactForm({ className }: ContactFormProps) {
       .join(', ');
   };
 
+  // Get today's date in YYYY-MM-DD format for date input min attribute
+  const getTodayDate = (): string => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setErrorMessage('');
 
+    // Store form reference before async operation
+    const form = e.currentTarget;
+
     try {
-      const formData = new FormData(e.currentTarget);
+      const formData = new FormData(form);
       
       // Collect all form data
       const data = {
@@ -85,12 +94,16 @@ export function ContactForm({ className }: ContactFormProps) {
         body: JSON.stringify(data),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       const result = await response.json();
+      console.log('Response result:', result);
 
       if (response.ok) {
         setSubmitStatus('success');
         // Reset form
-        e.currentTarget.reset();
+        form.reset();
         setSelectedCountries([]);
         setPhoneNumber('');
         setCorporateBudget({ min: 2000, max: 100000 });
@@ -151,13 +164,7 @@ export function ContactForm({ className }: ContactFormProps) {
         </div>
       </div>
 
-      {/* Status Messages */}
-      {submitStatus === 'success' && (
-        <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-          Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.
-        </div>
-      )}
-      
+      {/* Error Message */}
       {submitStatus === 'error' && (
         <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
           {errorMessage}
@@ -190,6 +197,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 <input
                   type="date"
                   name="date"
+                  min={getTodayDate()}
                   className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
               </div>
@@ -304,6 +312,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 <input
                   type="date"
                   name="date"
+                  min={getTodayDate()}
                   className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
               </div>
@@ -407,6 +416,13 @@ export function ContactForm({ className }: ContactFormProps) {
           </div>
 
         </div>
+
+        {/* Success Message */}
+        {submitStatus === 'success' && (
+          <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded text-center">
+            Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.
+          </div>
+        )}
 
         {/* Submit Button */}
         <div className="text-center pt-6">

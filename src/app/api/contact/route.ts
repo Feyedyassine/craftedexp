@@ -61,10 +61,10 @@ function sanitizeInput(input: string): string {
     .substring(0, 1000); // Limit length
 }
 
-function formatCurrency(value: number): string {
+function formatCurrency(value: number, currency: string = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value);
@@ -126,6 +126,25 @@ export async function POST(request: NextRequest) {
     const city = request.headers.get('x-vercel-ip-city') || 'Unknown';
     const region = request.headers.get('x-vercel-ip-region') || 'Unknown';
     const timezone = request.headers.get('x-vercel-ip-timezone') || 'Unknown';
+    
+    // Get currency based on country
+    const getCurrencyFromCountry = (countryCode: string): string => {
+      const currencyMap: Record<string, string> = {
+        'TN': 'TND', 'US': 'USD', 'GB': 'GBP', 'FR': 'EUR', 'DE': 'EUR', 'IT': 'EUR', 'ES': 'EUR',
+        'CA': 'CAD', 'AU': 'AUD', 'JP': 'JPY', 'CN': 'CNY', 'IN': 'INR', 'BR': 'BRL', 'MX': 'MXN',
+        'RU': 'RUB', 'ZA': 'ZAR', 'EG': 'EGP', 'MA': 'MAD', 'DZ': 'DZD', 'LY': 'LYD', 'SD': 'SDG',
+        'ET': 'ETB', 'KE': 'KES', 'NG': 'NGN', 'GH': 'GHS', 'UG': 'UGX', 'TZ': 'TZS', 'ZW': 'ZWL',
+        'BW': 'BWP', 'NA': 'NAD', 'ZM': 'ZMW', 'MW': 'MWK', 'MZ': 'MZN', 'MG': 'MGA', 'MU': 'MUR',
+        'SC': 'SCR', 'RE': 'EUR', 'YT': 'EUR', 'KM': 'KMF', 'DJ': 'DJF', 'SO': 'SOS', 'ER': 'ERN',
+        'SS': 'SSP', 'CF': 'XAF', 'TD': 'XAF', 'NE': 'XOF', 'ML': 'XOF', 'BF': 'XOF', 'CI': 'XOF',
+        'LR': 'LRD', 'SL': 'SLE', 'GN': 'GNF', 'GW': 'XOF', 'GM': 'GMD', 'SN': 'XOF', 'MR': 'MRU',
+        'CV': 'CVE', 'ST': 'STN', 'GQ': 'XAF', 'GA': 'XAF', 'CG': 'XAF', 'CD': 'CDF', 'AO': 'AOA',
+        'BI': 'BIF', 'RW': 'RWF'
+      };
+      return currencyMap[countryCode] || 'USD';
+    };
+    
+    const userCurrency = getCurrencyFromCountry(country);
 
     // Get user agent and referer
     const userAgent = request.headers.get('user-agent') || 'Unknown';
@@ -145,7 +164,7 @@ export async function POST(request: NextRequest) {
             .header { background: linear-gradient(135deg, #0d1f2d 0%, #1a2f3f 100%); color: white; padding: 40px 30px; text-align: center; }
             .logo { width: 200px; height: auto; margin-bottom: 15px; }
             .subtitle { font-size: 16px; opacity: 0.9; margin-bottom: 10px; }
-            .enquiry-type { background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 20px; display: inline-block; font-size: 14px; font-weight: 600; }
+            .enquiry-type { font-size: 24px; font-weight: bold; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
             .content { padding: 40px; }
             .section { margin-bottom: 35px; }
             .section-title { font-size: 18px; font-weight: bold; color: #0d1f2d; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid #e8f4f8; }
@@ -168,8 +187,7 @@ export async function POST(request: NextRequest) {
         <body>
           <div class="container">
             <div class="header">
-              <img src="https://craftedexperiences.com/icons/logo_horizental.svg" alt="Crafted Experiences" class="logo" />
-              <div class="subtitle">New Contact Form Submission</div>
+              <img src="https://craftedexperiences.com/icons/logo_horizental.png" alt="Crafted Experiences" class="logo" />
               <div class="enquiry-type">${body.type === 'corporate' ? '🏢 Corporate Enquiry' : '✈️ Individual Enquiry'}</div>
             </div>
             
@@ -228,7 +246,7 @@ export async function POST(request: NextRequest) {
                 
                 <div class="field">
                   <span class="label">Budget Range:</span>
-                  <div class="value budget-range">${formatCurrency(body.budget?.min || 0)} - ${formatCurrency(body.budget?.max || 0)}</div>
+                  <div class="value budget-range">${formatCurrency(body.budget?.min || 0, userCurrency)} - ${formatCurrency(body.budget?.max || 0, userCurrency)}</div>
                 </div>
                 
                 <div class="field">
@@ -263,7 +281,7 @@ export async function POST(request: NextRequest) {
                 
                 <div class="field">
                   <span class="label">Budget Range:</span>
-                  <div class="value budget-range">${formatCurrency(body.budget?.min || 0)} - ${formatCurrency(body.budget?.max || 0)}</div>
+                  <div class="value budget-range">${formatCurrency(body.budget?.min || 0, userCurrency)} - ${formatCurrency(body.budget?.max || 0, userCurrency)}</div>
                 </div>
                 
                 <div class="field">
@@ -320,10 +338,14 @@ export async function POST(request: NextRequest) {
     `;
 
     // Send email
+    // Dynamic subject based on enquiry type
+    const enquiryType = body.type === 'corporate' ? 'Corporate' : 'Individual';
+    const subject = `New ${enquiryType} Enquiry`;
+
     const { data: emailData, error } = await resend.emails.send({
       from: 'Crafted Experiences <noreply@crafted-experiences.com>',
-      to: ['contact@crafted-experiences.com'],
-      subject: `New Contact Form Submission - ${sanitizedData.name}`,
+      to: ['fayedyassine@gmail.com'], // TESTING: Change this to your Gmail
+      subject: subject,
       html: emailHtml,
     });
 
