@@ -14,6 +14,11 @@ export function ContactForm({ className }: ContactFormProps) {
   const [individualBudget, setIndividualBudget] = useState({ min: 500, max: 50000 });
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  
+  // Form state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Get user's location for default values
   const { country: userCountry, currency: userCurrency } = useGeolocation();
@@ -31,6 +36,89 @@ export function ContactForm({ className }: ContactFormProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      
+      // Collect all form data
+      const data = {
+        name: `${formData.get('firstName')} ${formData.get('lastName')}`.trim(),
+        email: formData.get('email') as string,
+        phone: phoneNumber,
+        company: formData.get('company') as string || '',
+        message: buildMessage(formData),
+        type: activeTab,
+        countries: selectedCountries.join(', '),
+        budget: activeTab === 'corporate' ? corporateBudget : individualBudget,
+        service: formData.get('service') as string || '',
+        attendees: formData.get('attendees') as string || '',
+        date: formData.get('date') as string || '',
+        duration: formData.get('duration') as string || '',
+        people: formData.get('people') as string || '',
+        source: formData.get('source') as string || ''
+      };
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Reset form
+        e.currentTarget.reset();
+        setSelectedCountries([]);
+        setPhoneNumber('');
+        setCorporateBudget({ min: 2000, max: 100000 });
+        setIndividualBudget({ min: 500, max: 50000 });
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(result.error || 'Failed to send message');
+      }
+    } catch {
+      setSubmitStatus('error');
+      setErrorMessage('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const buildMessage = (formData: FormData): string => {
+    let message = '';
+    
+    if (activeTab === 'individuals') {
+      message = `Trip Details:\n`;
+      message += `- Destinations: ${selectedCountries.join(', ') || 'Not specified'}\n`;
+      message += `- Travel Date: ${formData.get('date') || 'Not specified'}\n`;
+      message += `- Duration: ${formData.get('duration') || 'Not specified'}\n`;
+      message += `- Number of People: ${formData.get('people') || 'Not specified'}\n`;
+      message += `- Budget: ${formatCurrency(individualBudget.min)} - ${formatCurrency(individualBudget.max)}\n`;
+      message += `- Additional Comments: ${formData.get('comments') || 'None'}\n\n`;
+    } else {
+      message = `Corporate Service Details:\n`;
+      message += `- Service: ${formData.get('service') || 'Not specified'}\n`;
+      message += `- Company: ${formData.get('company') || 'Not specified'}\n`;
+      message += `- Attendees: ${formData.get('attendees') || 'Not specified'}\n`;
+      message += `- Preferred Date: ${formData.get('date') || 'Not specified'}\n`;
+      message += `- Budget: ${formatCurrency(corporateBudget.min)} - ${formatCurrency(corporateBudget.max)}\n`;
+      message += `- Requirements: ${formData.get('requirements') || 'None'}\n\n`;
+    }
+    
+    message += `How did you hear about us: ${formData.get('source') || 'Not specified'}`;
+    
+    return message;
   };
 
   return (
@@ -70,7 +158,20 @@ export function ContactForm({ className }: ContactFormProps) {
         </div>
       </div>
 
-      <form className="space-y-8">
+      {/* Status Messages */}
+      {submitStatus === 'success' && (
+        <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+          Thank you! Your message has been sent successfully. We&apos;ll get back to you soon.
+        </div>
+      )}
+      
+      {submitStatus === 'error' && (
+        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          {errorMessage}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-8">
         {/* Dynamic Content Based on Tab */}
         {activeTab === 'individuals' ? (
           /* YOUR TRIP Section - For Individuals */
@@ -95,6 +196,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 </label>
                 <input
                   type="date"
+                  name="date"
                   className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
               </div>
@@ -107,6 +209,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 </label>
                 <input
                   type="text"
+                  name="duration"
                   placeholder="Duration of trip"
                   className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
@@ -116,7 +219,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 <label className="block text-sm font-medium text-charcoal mb-2">
                   How many people are travelling?
                 </label>
-                <select className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
+                <select name="people" className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
                   <option>Select a number</option>
                   <option>1</option>
                   <option>2</option>
@@ -146,6 +249,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 Any other comments or requests?
               </label>
               <textarea
+                name="comments"
                 placeholder="E.g. special occasion, any must dos or don'ts"
                 rows={4}
                 className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20 resize-none"
@@ -160,7 +264,7 @@ export function ContactForm({ className }: ContactFormProps) {
               <label className="block text-sm font-medium text-charcoal mb-2">
                 Select the service you&apos;re interested in
               </label>
-              <select className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
+              <select name="service" className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
                 <option>Select a service</option>
                  <option>Trade Shows</option>
                 <option>Conferences</option>
@@ -178,6 +282,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 </label>
                 <input
                   type="text"
+                  name="company"
                   placeholder="Your company name"
                   className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
@@ -187,7 +292,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 <label className="block text-sm font-medium text-charcoal mb-2">
                   Number of Attendees
                 </label>
-                <select className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
+                <select name="attendees" className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
                   <option>Select number of attendees</option>
                   <option>10-25</option>
                   <option>26-50</option>
@@ -205,6 +310,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 </label>
                 <input
                   type="date"
+                  name="date"
                   className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
               </div>
@@ -229,6 +335,7 @@ export function ContactForm({ className }: ContactFormProps) {
                 Event Objectives & Requirements
               </label>
               <textarea
+                name="requirements"
                 placeholder="Please describe your event objectives, special requirements, venue preferences, and any other details..."
                 rows={4}
                 className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20 resize-none"
@@ -251,12 +358,16 @@ export function ContactForm({ className }: ContactFormProps) {
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="text"
+                  name="firstName"
                   placeholder="First Name"
+                  required
                   className="px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
                 <input
                   type="text"
+                  name="lastName"
                   placeholder="Last Name"
+                  required
                   className="px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                 />
               </div>
@@ -268,7 +379,9 @@ export function ContactForm({ className }: ContactFormProps) {
                    </label>
                    <input
                      type="email"
+                     name="email"
                      placeholder="example@email.com"
+                     required
                      className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20"
                    />
                  </div>
@@ -290,7 +403,7 @@ export function ContactForm({ className }: ContactFormProps) {
             <label className="block text-sm font-medium text-charcoal mb-2">
               How did you hear about us?
             </label>
-            <select className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
+            <select name="source" className="w-full px-3 py-2 border border-soft-gray rounded-none bg-white text-charcoal focus:outline-none focus:ring-2 focus:ring-charcoal/20">
               <option>Select</option>
               <option>Google Search</option>
               <option>Social Media</option>
@@ -307,9 +420,10 @@ export function ContactForm({ className }: ContactFormProps) {
           <Button
             type="submit"
             size="lg"
-            className="bg-charcoal text-cream hover:bg-charcoal/90 font-semibold px-8 py-3 text-lg uppercase tracking-wide"
+            disabled={isSubmitting}
+            className="bg-charcoal text-cream hover:bg-charcoal/90 font-semibold px-8 py-3 text-lg uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit Enquiry
+            {isSubmitting ? 'Sending...' : 'Submit Enquiry'}
           </Button>
         </div>
       </form>
