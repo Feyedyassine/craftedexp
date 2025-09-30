@@ -16,7 +16,7 @@ export default function Home() {
       <IntroWithTestimonials />
 
       {/* Services Section */}
-      <OurServices />
+      {/* <OurServices /> */}
 
       {/* Case Study Section */}
       <CaseStudy />

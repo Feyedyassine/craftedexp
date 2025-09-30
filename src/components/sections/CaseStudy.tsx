@@ -108,6 +108,47 @@ export function CaseStudy({ className }: CaseStudyProps) {
 
         {/* Carousel */}
         <div className="relative">
+          {/* Navigation Arrows - Hidden on mobile, visible on desktop */}
+          <button
+            onClick={() => goToSlide(currentIndex === 0 ? caseStudies.length - 1 : currentIndex - 1)}
+            className="hidden lg:block absolute left-2 xl:left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-charcoal p-2 xl:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 opacity-80 hover:opacity-100"
+            aria-label="Previous case study"
+          >
+            <svg
+              className="w-4 h-4 xl:w-5 xl:h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          <button
+            onClick={() => goToSlide(currentIndex === caseStudies.length - 1 ? 0 : currentIndex + 1)}
+            className="hidden lg:block absolute right-2 xl:right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-charcoal p-2 xl:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 opacity-80 hover:opacity-100"
+            aria-label="Next case study"
+          >
+            <svg
+              className="w-4 h-4 xl:w-5 xl:h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+
           <div 
             className={`grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center transition-opacity duration-1000 ${
               isVisible ? 'opacity-100' : 'opacity-0'
@@ -190,6 +231,7 @@ export function CaseStudy({ className }: CaseStudyProps) {
                 className="object-cover"
                 priority={currentIndex === 0}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                key={`${currentCaseStudy.id}-${currentIndex}`}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/20 to-transparent" />
             </div>

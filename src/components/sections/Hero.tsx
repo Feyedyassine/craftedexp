@@ -1,5 +1,6 @@
 import { Button, Body } from '@/components/ui';
 import SafariImage from '@/components/ui/SafariImage';
+import Link from 'next/link';
 
 interface HeroProps {
   className?: string;
@@ -41,15 +42,26 @@ export function Hero({ className }: HeroProps) {
           </Body>
         </div>
         
-        {/* Button - Centered */}
-        <div className="max-w-xs sm:max-w-sm">
-          <Button 
-            variant="outline"
-            size="lg" 
-            className="text-cream border-cream hover:bg-cream hover:text-charcoal"
-          >
-            Begin Your Journey
-          </Button>
+        {/* CTAs - Centered */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-lg">
+          <Link href="/for-corporate" className="flex-1">
+            <Button 
+              variant="outline"
+              size="md" 
+              className="w-full text-cream border-cream hover:bg-cream hover:text-charcoal text-sm font-medium py-2"
+            >
+              Corporate
+            </Button>
+          </Link>
+          <Link href="/for-individuals" className="flex-1">
+            <Button 
+              variant="outline"
+              size="md" 
+              className="w-full text-cream border-cream hover:bg-cream hover:text-charcoal text-sm font-medium py-2 whitespace-nowrap"
+            >
+              Independent Traveler
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

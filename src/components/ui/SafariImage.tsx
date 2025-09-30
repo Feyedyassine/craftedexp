@@ -39,13 +39,52 @@ export default function SafariImage({
   // Check WebP support
   useEffect(() => {
     const checkWebPSupport = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1;
-      canvas.height = 1;
-      return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+      // Check for WebP support using multiple methods for better iOS Safari compatibility
+      if (typeof window === 'undefined') return true; // SSR fallback
+      
+      // Method 1: Canvas toDataURL test
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        const webpDataURL = canvas.toDataURL('image/webp');
+        if (webpDataURL.indexOf('data:image/webp') === 0) {
+          return true;
+        }
+      } catch (e) {
+        // Canvas method failed
+      }
+
+      // Method 2: User agent check for known problematic browsers
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isOldSafari = userAgent.includes('safari') && 
+                         !userAgent.includes('chrome') && 
+                         (userAgent.includes('version/14') || userAgent.includes('version/13') || userAgent.includes('version/12'));
+      
+      if (isOldSafari) {
+        return false;
+      }
+
+      // Method 3: Feature detection using createImageBitmap
+      if (typeof createImageBitmap !== 'undefined') {
+        const webpData = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAsAAAAAByoAQBTQEEASADwAQAA';
+        return new Promise<boolean>((resolve) => {
+          const img = document.createElement('img');
+          img.onload = () => resolve(img.height === 2);
+          img.onerror = () => resolve(false);
+          img.src = webpData;
+        }).then((supported) => {
+          setIsWebPSupported(supported);
+        });
+      }
+
+      return true; // Default to supported if we can't determine
     };
 
-    setIsWebPSupported(checkWebPSupport());
+    const result = checkWebPSupport();
+    if (typeof result === 'boolean') {
+      setIsWebPSupported(result);
+    }
   }, []);
 
   // Generate fallback PNG path
@@ -58,7 +97,7 @@ export default function SafariImage({
 
   // Handle image load error
   const handleError = () => {
-    if (!hasError && isWebPSupported) {
+    if (!hasError) {
       // Try PNG fallback
       const fallbackSrc = getFallbackSrc(src);
       setImageSrc(fallbackSrc);
@@ -75,7 +114,7 @@ export default function SafariImage({
     }
   };
 
-  // Use PNG fallback for older Safari versions
+  // Determine which image to use
   const finalSrc = isWebPSupported ? imageSrc : getFallbackSrc(src);
 
   return (

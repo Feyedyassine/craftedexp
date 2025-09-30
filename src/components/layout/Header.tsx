@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
 import Image from 'next/image';
+import SafariImage from '@/components/ui/SafariImage';
 
 interface HeaderProps {
   className?: string;
@@ -18,14 +19,15 @@ interface NavItem {
 }
 
 
+
 const mainNavItems: NavItem[] = [
   { label: 'For Corporate', href: '/for-corporate', isActive: false },
   { label: 'For Individuals', href: '/for-individuals', isActive: false },
 ];
 
 export function Header({ className }: HeaderProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showLogo, setShowLogo] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
@@ -60,15 +62,15 @@ export function Header({ className }: HeaderProps) {
     )}>
       <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8">
         <div className="flex items-center h-12 sm:h-16">
-          {/* Mobile Menu Button - Left aligned on mobile */}
+          {/* Mobile Menu Button - Only visible on mobile */}
           <button 
             onClick={toggleMobileMenu}
-            className="lg:hidden p-1.5 sm:p-2 text-cream hover:text-charcoal transition-colors mr-3 sm:mr-4"
+            className="lg:hidden p-1.5 text-cream hover:text-charcoal transition-colors mr-3"
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? (
               <svg
-                className="w-5 h-5 sm:w-6 sm:h-6"
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -82,7 +84,7 @@ export function Header({ className }: HeaderProps) {
               </svg>
             ) : (
               <svg
-                className="w-5 h-5 sm:w-6 sm:h-6"
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -97,52 +99,50 @@ export function Header({ className }: HeaderProps) {
             )}
           </button>
 
-          {/* Main Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
-            {mainNavItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'text-cream hover:text-charcoal transition-colors duration-200',
-                  'font-medium text-base relative group',
-                  item.isActive && 'text-charcoal'
-                )}
-              >
-                {item.label}
-                {item.isActive && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-charcoal" />
-                )}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-charcoal group-hover:w-full transition-all duration-200" />
-              </a>
-            ))}
-          </nav>
+          {/* Horizontal Logo - Left aligned */}
+          <div className="flex-shrink-0">
+            <Link href="/" className="block">
+              <SafariImage
+                src="/icons/logo_horizental.svg"
+                alt="Crafted Experiences"
+                width={200}
+                height={60}
+                className="h-6 sm:h-8 lg:h-10 w-auto hover:opacity-80 transition-opacity cursor-pointer"
+              />
+            </Link>
+          </div>
 
-          {/* Spacer to push right section to the right */}
-          <div className="flex-1" />
-
-          {/* Logo - Centered */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          {/* Desktop Navigation Menu - Left aligned after logo */}
+          <div className="hidden lg:block ml-6">
             <div className={cn(
               'transition-all duration-500 ease-in-out',
               showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             )}>
-              <Link href="/" className="block">
-                <Image
-                  src="/icons/icon_logo.svg"
-                  alt="Crafted Experiences Logo"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 hover:opacity-80 transition-opacity cursor-pointer"
-                />
-              </Link>
+              <nav className="flex items-center space-x-6">
+                {mainNavItems.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      'text-cream hover:text-charcoal transition-colors duration-200',
+                      'font-medium text-sm relative group'
+                    )}
+                  >
+                    {item.label}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-charcoal group-hover:w-full transition-all duration-200" />
+                  </a>
+                ))}
+              </nav>
             </div>
           </div>
 
-          {/* Right Section */}
+          {/* Spacer to push right section to the right */}
+          <div className="flex-1" />
+
+          {/* Right Section - Phone and CTA */}
           <div className="flex items-center space-x-2 sm:space-x-3">
-            {/* Phone Number - Always visible on mobile */}
-            <div className="flex items-center space-x-1 sm:space-x-2">
+            {/* Phone Number - Hidden on very small screens */}
+            <div className="hidden sm:flex items-center space-x-1 sm:space-x-2">
               <svg
                 className="w-3 h-3 sm:w-4 sm:h-4 text-charcoal"
                 fill="none"
@@ -160,10 +160,10 @@ export function Header({ className }: HeaderProps) {
                 href="tel:+21628780000"
                 className="text-cream hover:text-charcoal transition-colors duration-200 text-xs sm:text-sm font-medium"
               >
-                +216 28 780 000
+                <span className="hidden sm:inline">+216 28 780 000</span>
+                <span className="sm:hidden">+216 28 780 000</span>
               </a>
             </div>
-
 
             {/* CTA Button */}
             <Link href="/contact">
@@ -179,27 +179,27 @@ export function Header({ className }: HeaderProps) {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Menu */}
         <div className={cn(
-          'lg:hidden border-t border-black/20 transition-all duration-300',
-          isMobileMenuOpen ? 'max-h-48 opacity-100 pb-2' : 'max-h-0 opacity-0 overflow-hidden'
+          'lg:hidden border-t border-black/20 transition-all duration-300 overflow-hidden',
+          isMobileMenuOpen ? 'max-h-48 opacity-100 pb-4' : 'max-h-0 opacity-0'
         )}>
-          <nav className="pt-2 pb-1">
-            {/* Main Nav Items */}
-            <div className="space-y-1">
+          <nav className="pt-4">
+            <div className="space-y-3">
               {mainNavItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="block text-cream hover:text-charcoal transition-colors duration-200 font-medium py-1.5 text-sm"
+                  className="block text-cream hover:text-charcoal transition-colors duration-200 font-medium py-2 text-sm"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
                 </a>
               ))}
             </div>
-
           </nav>
         </div>
+
       </div>
     </header>
   );
