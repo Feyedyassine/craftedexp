@@ -1,47 +1,58 @@
-import { Container, Section } from '@/components/ui';
+import { Container, Section, H2 } from '@/components/ui';
+import { Testimonial } from '@/types/contentful';
 
 interface TestimonialsProps {
+  testimonials: Testimonial[];
   className?: string;
 }
 
-const testimonials = [
-  {
-    quote: "Crafted Experiences transformed our annual conference into an unforgettable event that exceeded all expectations.",
-    author: "Sarah Johnson",
-    role: "Marketing Director",
-    company: "TechCorp",
-  },
-  {
-    quote: "Our family vacation to Morocco was absolutely magical. Every detail was perfectly orchestrated.",
-    author: "Michael Chen",
-    role: "Executive",
-    company: "Global Finance",
-  },
-  {
-    quote: "The attention to detail and personalized service made our corporate retreat an exceptional success.",
-    author: "Emily Rodriguez",
-    role: "HR Director",
-    company: "InnovateTech",
-  },
-];
-
-export function Testimonials({ className }: TestimonialsProps) {
+export function Testimonials({ testimonials, className }: TestimonialsProps) {
+  // If no testimonials, show nothing
+  if (!testimonials || testimonials.length === 0) {
+    return null;
+  }
   return (
-    <Section background="white" padding="none" className={`${className} pt-6 pb-42`}>
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="space-y-4 text-center">
-              <blockquote className="text-charcoal text-lg leading-relaxed italic">
-                &ldquo;{testimonial.quote}&rdquo;
+    <Section background="white" padding="lg" className={className}>
+      <Container size="xl">
+        {/* Section Title */}
+        <div className="text-center mb-8 sm:mb-12">
+          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display">
+            What Our Clients Say
+          </H2>
+        </div>
+
+        {/* Testimonials Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {testimonials.map((testimonial) => (
+            <div key={testimonial.id} className="space-y-3 sm:space-y-4 text-center px-2">
+              <blockquote className="text-charcoal text-base sm:text-lg leading-relaxed italic">
+                &ldquo;{testimonial.testimonialText}&rdquo;
               </blockquote>
               <div className="space-y-1">
-                <div className="font-medium text-charcoal">
-                  {testimonial.author}
+                <div className="font-medium text-charcoal text-sm sm:text-base">
+                  {testimonial.clientName}
                 </div>
-                <div className="text-sm text-charcoal/70">
-                  {testimonial.role}, {testimonial.company}
-                </div>
+                {testimonial.clientRole && (
+                  <div className="text-xs sm:text-sm text-charcoal/70">
+                    {testimonial.clientRole}
+                  </div>
+                )}
+                {testimonial.clientCompany && (
+                  <div className="text-xs sm:text-sm text-charcoal/70">
+                    {testimonial.companyWebsite ? (
+                      <a 
+                        href={testimonial.companyWebsite}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-charcoal underline transition-colors"
+                      >
+                        {testimonial.clientCompany}
+                      </a>
+                    ) : (
+                      testimonial.clientCompany
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}

@@ -6,39 +6,26 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 interface CaseStudyNavigationProps {
-  currentId: string;
+  currentSlug: string;
+  allSlugs: string[];
+  allTitles: Record<string, string>;
   className?: string;
 }
 
-// Define the case study order
-const caseStudyOrder = [
-  'porsche-taycan-launch',
-  'green-growth-summit', 
-  'darana-photoshoot',
-  'padel-master-tournament'
-];
-
-const caseStudyTitles = {
-  'porsche-taycan-launch': 'Porsche Taycan Launch',
-  'green-growth-summit': 'Green Growth Summit',
-  'darana-photoshoot': 'Photoshoot for Darana',
-  'padel-master-tournament': 'Padel Master Tournament'
-};
-
-export function CaseStudyNavigation({ currentId, className }: CaseStudyNavigationProps) {
+export function CaseStudyNavigation({ currentSlug, allSlugs, allTitles, className }: CaseStudyNavigationProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  const currentIndex = caseStudyOrder.indexOf(currentId);
-  const prevIndex = currentIndex > 0 ? currentIndex - 1 : caseStudyOrder.length - 1;
-  const nextIndex = currentIndex < caseStudyOrder.length - 1 ? currentIndex + 1 : 0;
+  const currentIndex = allSlugs.indexOf(currentSlug);
+  const prevIndex = currentIndex > 0 ? currentIndex - 1 : allSlugs.length - 1;
+  const nextIndex = currentIndex < allSlugs.length - 1 ? currentIndex + 1 : 0;
   
-  const prevId = caseStudyOrder[prevIndex];
-  const nextId = caseStudyOrder[nextIndex];
+  const prevSlug = allSlugs[prevIndex];
+  const nextSlug = allSlugs[nextIndex];
   
-  const prevTitle = caseStudyTitles[prevId as keyof typeof caseStudyTitles];
-  const nextTitle = caseStudyTitles[nextId as keyof typeof caseStudyTitles];
+  const prevTitle = allTitles[prevSlug];
+  const nextTitle = allTitles[nextSlug];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,7 +73,7 @@ export function CaseStudyNavigation({ currentId, className }: CaseStudyNavigatio
         <div className="flex justify-between items-center px-4 backdrop-blur-sm">
           {/* Previous Case Study */}
           <div className="flex-1">
-            <Link href={`/case-studies/${prevId}`}>
+            <Link href={`/case-studies/${prevSlug}`}>
               <Button
                 variant="outline"
                 size="sm"
@@ -103,7 +90,7 @@ export function CaseStudyNavigation({ currentId, className }: CaseStudyNavigatio
 
           {/* Next Case Study */}
           <div className="flex-1 ml-2">
-            <Link href={`/case-studies/${nextId}`}>
+            <Link href={`/case-studies/${nextSlug}`}>
               <Button
                 variant="outline"
                 size="sm"
@@ -127,7 +114,7 @@ export function CaseStudyNavigation({ currentId, className }: CaseStudyNavigatio
         <div className="flex justify-between items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           {/* Previous Case Study */}
           <div className="flex-1 pointer-events-auto">
-            <Link href={`/case-studies/${prevId}`}>
+            <Link href={`/case-studies/${prevSlug}`}>
               <Button
                 variant="outline"
                 size="lg"
@@ -144,7 +131,7 @@ export function CaseStudyNavigation({ currentId, className }: CaseStudyNavigatio
 
           {/* Next Case Study */}
           <div className="flex-1 flex justify-end pointer-events-auto">
-            <Link href={`/case-studies/${nextId}`}>
+            <Link href={`/case-studies/${nextSlug}`}>
               <Button
                 variant="outline"
                 size="lg"

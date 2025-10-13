@@ -38,7 +38,7 @@ export function WhyChooseUs({ className }: WhyChooseUsProps) {
     <Section background="white" padding="lg" className={className}>
       <Container>
         <div className="text-center mb-8 sm:mb-12">
-          <H2 className="text-charcoal text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display mb-2">
+          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-2">
             Why Choose Us?
           </H2>
           <Body className="text-charcoal/70 text-sm md:text-base">
@@ -53,9 +53,9 @@ export function WhyChooseUs({ className }: WhyChooseUsProps) {
                  <div className="text-charcoal mb-3 sm:mb-4">
                    {reason.icon}
                  </div>
-                <h3 className="text-charcoal text-sm sm:text-base md:text-lg font-display mb-2">
-                  {reason.title}
-                </h3>
+               <h3 className="text-charcoal text-xs sm:text-sm md:text-base font-display mb-2">
+                 {reason.title}
+               </h3>
                 <p className="text-charcoal/70 text-xs sm:text-sm md:text-base leading-relaxed">
                   {reason.description}
                 </p>

@@ -4,72 +4,23 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Container, Section, H2, Body, Button } from '@/components/ui';
 import SafariImage from '@/components/ui/SafariImage';
+import { CaseStudy as CaseStudyType } from '@/types/contentful';
 
 interface CaseStudyProps {
+  caseStudies: CaseStudyType[];
   className?: string;
 }
 
-interface CaseStudyData {
-  id: string;
-  title: string;
-  description: string;
-  challenge: string;
-  solution: string;
-  results: string;
-  image: string;
-  imageAlt: string;
-}
-
-const caseStudies: CaseStudyData[] = [
-  {
-    id: 'porsche-taycan-launch',
-    title: 'Porsche Taycan Launch',
-    description: 'ENNAKL Automobile introduced the brand\'s first 100% electric sports car with an exclusive launch event in Gammarth.',
-    challenge: 'Create a high-impact product launch that combined prestige, innovation, and technical credibility while positioning Porsche as a leader in electric mobility in Tunisia.',
-    solution: 'Our agency designed and delivered a premium experience with a dramatic reveal, immersive brand storytelling, seamless logistics, and strong media and influencer engagement.',
-    results: 'Widespread press coverage, strengthened brand positioning in the electric segment, memorable experiences for VIP guests, and valuable new client leads for Porsche/Ennakl.',
-    image: '/images/porsche.webp',
-    imageAlt: 'Porsche Taycan launch event in Tunisia'
-  },
-  {
-    id: 'green-growth-summit',
-    title: 'Green Growth Summit',
-    description: 'New Silk Roads x Hivos convened bold voices and visionary minds from Tunisia and the MENA region to drive dialogue on green justice and sustainable development.',
-    challenge: 'Host a summit that not only inspired climate ambition but also fostered meaningful cross-sector collaboration and positioned Tunisia as a hub for green transition in the region.',
-    solution: 'Our agency delivered an impactful event with dynamic programming, eco-inspired staging, seamless logistics, and strong engagement strategies to amplify voices and connections.',
-    results: 'Powerful regional dialogue, strengthened stakeholder networks, amplified media visibility, and renewed momentum for a just, green transition in Tunisia and beyond.',
-    image: '/images/greensummit.webp',
-    imageAlt: 'Green Growth Summit event'
-  },
-  {
-    id: 'darana-photoshoot',
-    title: 'Photoshoot for Darana',
-    description: 'Darana Switzerland, a premium cosmetics brand, partnered with our agency to create a luxury lifestyle photoshoot at the Four Seasons Hotel Gammarth.',
-    challenge: 'Deliver a high-end brand shoot abroad that reflected Darana\'s elegance and values, while managing all logistics for an international client.',
-    solution: 'We provided full creative direction, coordinated top photographers and professional models, and oversaw styling, makeup, and production to ensure a seamless experience.',
-    results: 'Stunning visual assets for Darana\'s European campaigns, a smooth and stress-free process, and an impressed client who praised our professionalism, creativity, and attention to detail.',
-    image: '/images/darana.webp',
-    imageAlt: 'Darana Switzerland luxury photoshoot at Four Seasons Hotel Gammarth'
-  },
-  {
-    id: 'padel-master-tournament',
-    title: 'Padel Master Tournament',
-    description: 'Magic Hôtel El Manar hosted Tunisia\'s premier Padel Master Tournament, bringing together the country\'s best players for two weeks of competition and celebration.',
-    challenge: 'Organize a high-profile, 100% Tunisian tournament that combined professionalism, intensity, and entertainment, while positioning Magic Hôtels as a leader in sports and hospitality.',
-    solution: 'We delivered a turnkey event with professional courts, seamless logistics, premium hospitality, and dynamic promotion — ensuring both players and guests experienced the highest standards.',
-    results: 'Over 75,000 DT in prize money awarded, strong media visibility, unforgettable experiences for players and fans, and reinforced Magic Hôtels\' role in growing padel and hosting world-class events in Tunisia.',
-    image: '/images/padel.webp',
-    imageAlt: 'Padel Master Tournament at Magic Hôtel El Manar'
-  }
-];
-
-export function CaseStudy({ className }: CaseStudyProps) {
+export function CaseStudy({ caseStudies, className }: CaseStudyProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const currentCaseStudy = caseStudies[currentIndex];
 
   // Auto-advance carousel every 12 seconds
   useEffect(() => {
+    if (!caseStudies || caseStudies.length === 0) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setIsVisible(false);
       setTimeout(() => {
@@ -81,7 +32,7 @@ export function CaseStudy({ className }: CaseStudyProps) {
     }, 12000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [caseStudies]);
 
   const goToSlide = (index: number) => {
     if (index !== currentIndex) {
@@ -93,12 +44,19 @@ export function CaseStudy({ className }: CaseStudyProps) {
     }
   };
 
+  // If no case studies, show nothing (after all hooks)
+  if (!caseStudies || caseStudies.length === 0) {
+    return null;
+  }
+
+  const currentCaseStudy = caseStudies[currentIndex];
+
   return (
-    <Section background="white" padding="xl" className={className}>
+    <Section background="sand" padding="xl" className={className}>
       <Container size="xl">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <H2 className="text-charcoal text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display mb-3 sm:mb-4">
+          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-3 sm:mb-4">
             Corporate Success Stories
           </H2>
           <Body className="text-charcoal/70 text-base sm:text-lg max-w-2xl mx-auto px-4">
@@ -157,11 +115,11 @@ export function CaseStudy({ className }: CaseStudyProps) {
             {/* Content */}
             <div className="space-y-4 sm:space-y-6 px-4 sm:px-0 order-2 lg:order-1">
               <div>
-                <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-3 sm:mb-4">
+                <H2 className="text-charcoal text-base sm:text-lg md:text-xl lg:text-2xl font-display mb-3 sm:mb-4">
                   {currentCaseStudy.title}
                 </H2>
                 <Body className="text-charcoal/70 text-base sm:text-lg leading-relaxed">
-                  {currentCaseStudy.description}
+                  {currentCaseStudy.shortDescription}
                 </Body>
               </div>
 
@@ -204,13 +162,7 @@ export function CaseStudy({ className }: CaseStudyProps) {
               </div>
 
               <div className="pt-3 sm:pt-4 text-center sm:text-left">
-                <Link href={
-                  currentCaseStudy.id === 'porsche-taycan-launch' ? '/case-studies/porsche-taycan-launch' :
-                  currentCaseStudy.id === 'green-growth-summit' ? '/case-studies/green-growth-summit' :
-                  currentCaseStudy.id === 'darana-photoshoot' ? '/case-studies/darana-photoshoot' :
-                  currentCaseStudy.id === 'padel-master-tournament' ? '/case-studies/padel-master-tournament' :
-                  '#'
-                }>
+                <Link href={`/case-studies/${currentCaseStudy.slug}`}>
                   <Button 
                     variant="outline" 
                     size="sm"
@@ -225,13 +177,13 @@ export function CaseStudy({ className }: CaseStudyProps) {
             {/* Image */}
             <div className="relative h-64 sm:h-80 lg:h-96 xl:h-[500px] overflow-hidden order-1 lg:order-2">
               <SafariImage
-                src={currentCaseStudy.image}
-                alt={currentCaseStudy.imageAlt}
+                src={currentCaseStudy.heroImage}
+                alt={currentCaseStudy.heroImageAlt}
                 fill
                 className="object-cover"
                 priority={currentIndex === 0}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                key={`${currentCaseStudy.id}-${currentIndex}`}
+                key={`${currentCaseStudy.slug}-${currentIndex}`}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/20 to-transparent" />
             </div>

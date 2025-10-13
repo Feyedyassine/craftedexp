@@ -37,3 +37,4 @@ export { FeatureGrid } from './FeatureGrid';
 export { DualRangeSlider } from './DualRangeSlider';
 export { CountrySelector } from './CountrySelector';
 export { PhoneInput } from './PhoneInput';
+export { RichText } from './RichText';

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
-import Image from 'next/image';
 import SafariImage from '@/components/ui/SafariImage';
 
 interface HeaderProps {
@@ -23,6 +22,8 @@ interface NavItem {
 const mainNavItems: NavItem[] = [
   { label: 'For Corporate', href: '/for-corporate', isActive: false },
   { label: 'For Individuals', href: '/for-individuals', isActive: false },
+  { label: 'Case Studies', href: '/case-studies', isActive: false },
+  { label: 'About', href: '/about', isActive: false },
 ];
 
 export function Header({ className }: HeaderProps) {
@@ -56,8 +57,10 @@ export function Header({ className }: HeaderProps) {
 
   return (
     <header className={cn(
-      'bg-black text-cream sticky top-0 z-50',
-      'border-b border-black/20',
+      'z-50 transition-all duration-500 border-b',
+      showLogo 
+        ? 'sticky top-0 bg-black text-cream border-black/20' 
+        : 'absolute top-0 left-0 right-0 bg-transparent text-white border-transparent',
       className
     )}>
       <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8">
@@ -65,7 +68,12 @@ export function Header({ className }: HeaderProps) {
           {/* Mobile Menu Button - Only visible on mobile */}
           <button 
             onClick={toggleMobileMenu}
-            className="lg:hidden p-1.5 text-cream hover:text-charcoal transition-colors mr-3"
+            className={cn(
+              'lg:hidden p-1.5 transition-colors mr-3',
+              showLogo 
+                ? 'text-cream hover:text-charcoal' 
+                : 'text-white hover:text-cream drop-shadow-lg'
+            )}
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? (
@@ -124,12 +132,17 @@ export function Header({ className }: HeaderProps) {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      'text-cream hover:text-charcoal transition-colors duration-200',
-                      'font-medium text-sm relative group'
+                      'transition-colors duration-200 font-medium text-sm relative group',
+                      showLogo 
+                        ? 'text-cream hover:text-charcoal' 
+                        : 'text-white hover:text-cream drop-shadow-lg'
                     )}
                   >
                     {item.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-charcoal group-hover:w-full transition-all duration-200" />
+                    <span className={cn(
+                      'absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-200 group-hover:w-full',
+                      showLogo ? 'bg-charcoal' : 'bg-cream'
+                    )} />
                   </a>
                 ))}
               </nav>
@@ -144,7 +157,10 @@ export function Header({ className }: HeaderProps) {
             {/* Phone Number - Hidden on very small screens */}
             <div className="hidden sm:flex items-center space-x-1 sm:space-x-2">
               <svg
-                className="w-3 h-3 sm:w-4 sm:h-4 text-charcoal"
+                className={cn(
+                  'w-3 h-3 sm:w-4 sm:h-4 transition-colors duration-200',
+                  showLogo ? 'text-charcoal' : 'text-white drop-shadow-lg'
+                )}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -158,7 +174,12 @@ export function Header({ className }: HeaderProps) {
               </svg>
               <a
                 href="tel:+21628780000"
-                className="text-cream hover:text-charcoal transition-colors duration-200 text-xs sm:text-sm font-medium"
+                className={cn(
+                  'transition-colors duration-200 text-xs sm:text-sm font-medium',
+                  showLogo 
+                    ? 'text-cream hover:text-charcoal' 
+                    : 'text-white hover:text-cream drop-shadow-lg'
+                )}
               >
                 <span className="hidden sm:inline">+216 28 780 000</span>
                 <span className="sm:hidden">+216 28 780 000</span>
@@ -170,10 +191,14 @@ export function Header({ className }: HeaderProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream font-semibold text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 cursor-pointer"
+                className={cn(
+                  'font-semibold text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 cursor-pointer transition-all duration-200',
+                  showLogo
+                    ? 'bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream'
+                    : 'bg-white/90 text-charcoal border-white/90 hover:bg-white hover:text-charcoal drop-shadow-lg'
+                )}
               >
-                <span className="hidden sm:inline">Enquire now</span>
-                <span className="sm:hidden">Enquire</span>
+                Talk To Us
               </Button>
             </Link>
           </div>
@@ -181,7 +206,8 @@ export function Header({ className }: HeaderProps) {
 
         {/* Mobile Navigation Menu */}
         <div className={cn(
-          'lg:hidden border-t border-black/20 transition-all duration-300 overflow-hidden',
+          'lg:hidden transition-all duration-300 overflow-hidden',
+          showLogo ? 'border-t border-black/20' : 'border-t border-white/20',
           isMobileMenuOpen ? 'max-h-48 opacity-100 pb-4' : 'max-h-0 opacity-0'
         )}>
           <nav className="pt-4">
@@ -190,7 +216,12 @@ export function Header({ className }: HeaderProps) {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="block text-cream hover:text-charcoal transition-colors duration-200 font-medium py-2 text-sm"
+                  className={cn(
+                    'block transition-colors duration-200 font-medium py-2 text-sm',
+                    showLogo 
+                      ? 'text-cream hover:text-charcoal' 
+                      : 'text-white hover:text-cream drop-shadow-lg'
+                  )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
