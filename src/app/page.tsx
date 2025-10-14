@@ -2,6 +2,9 @@ import { Header, Footer } from '@/components/layout';
 import { Hero, OurServices, CaseStudy, OurStory, WhyChooseUs, Testimonials, CTA } from '@/components/sections';
 import { getCaseStudies, getTestimonials, getServices } from '@/lib/contentful';
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
 export default async function Home() {
   // Fetch data from Contentful
   const caseStudies = await getCaseStudies(true); // Only featured case studies

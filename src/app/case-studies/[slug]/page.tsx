@@ -12,6 +12,9 @@ interface CaseStudyPageProps {
   }>;
 }
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
 // Generate static paths for all case studies
 export async function generateStaticParams() {
   const caseStudies = await getCaseStudies();

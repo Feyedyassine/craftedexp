@@ -9,6 +9,9 @@ export const metadata = {
   description: 'Discover extraordinary journeys crafted exclusively for you. From luxury escapes to adventure expeditions, we design experiences that match your unique desires.',
 };
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
 export default async function ForIndividualsPage() {
   // Fetch individual services from Contentful
   const services = await getServices({ audience: 'Individuals' });

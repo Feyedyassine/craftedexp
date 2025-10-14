@@ -9,6 +9,9 @@ export const metadata = {
   description: 'Explore our portfolio of successful events and experiences. From corporate launches to luxury photoshoots, discover how we bring visions to life.',
 };
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
 export default async function CaseStudiesPage() {
   const caseStudies = await getCaseStudies();
 

@@ -9,6 +9,9 @@ export const metadata = {
   description: 'Elevate your corporate events with our comprehensive suite of services designed to create lasting impressions and drive meaningful results.',
 };
 
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
 export default async function ForCorporatePage() {
   // Fetch corporate services from Contentful
   const services = await getServices({ audience: 'Corporate' });
