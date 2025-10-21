@@ -12,7 +12,7 @@ export function CTA({ className }: CTAProps) {
         <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12 items-center justify-between">
           {/* Left Column - Heading */}
           <div className="flex-1 text-center lg:text-left px-2 sm:px-0">
-            <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-3 sm:mb-4 leading-tight">
+            <H2 className="text-charcoal text-h2 font-display mb-3 sm:mb-4 leading-tight">
               Let&apos;s Create Your Next Unforgettable Experience
             </H2>
           </div>

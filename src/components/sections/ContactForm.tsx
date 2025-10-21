@@ -132,7 +132,7 @@ export function ContactForm({ className }: ContactFormProps) {
       {/* Form Title and Tabs */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 space-y-4 lg:space-y-0">
         <div className="text-center lg:text-left">
-          <H2 className="text-charcoal text-xl sm:text-2xl font-display uppercase tracking-wide">
+          <H2 className="text-charcoal text-h3 font-display uppercase tracking-wide">
             {activeTab === 'individuals' ? 'YOUR TRIP' : 'YOUR SERVICE'}
           </H2>
         </div>
@@ -348,7 +348,7 @@ export function ContactForm({ className }: ContactFormProps) {
 
         {/* YOUR DETAILS Section */}
         <div className="space-y-6">
-          <H2 className="text-charcoal text-xl font-display uppercase tracking-wide">
+          <H2 className="text-charcoal text-h3 font-display uppercase tracking-wide">
             YOUR DETAILS
           </H2>
 

@@ -129,8 +129,8 @@ export interface ServiceSkeleton {
     slug: EntryFieldTypes.Text;
     shortDescription: EntryFieldTypes.Text;
     fullDescription: EntryFieldTypes.RichText;
-    serviceCategory: EntryFieldTypes.Text<'Travel' | 'Events'>;
-    targetAudience: EntryFieldTypes.Array<EntryFieldTypes.Symbol<'Corporate' | 'Individuals'>>;
+    serviceCategory: EntryFieldTypes.Text<'Travel' | 'Events' | 'both'>;
+    targetAudience: EntryFieldTypes.Array<EntryFieldTypes.Symbol<'Corporate' | 'Individuals' | 'both'>>;
     heroImage: EntryFieldTypes.AssetLink;
     secondaryImage?: EntryFieldTypes.AssetLink;
     imageAlt: EntryFieldTypes.Text;
@@ -152,12 +152,90 @@ export interface Service {
   slug: string;
   shortDescription: string;
   fullDescription: Document;
-  serviceCategory: 'Travel' | 'Events';
-  targetAudience: ('Corporate' | 'Individuals')[];
+  serviceCategory: 'Travel' | 'Events' | 'both';
+  targetAudience: ('Corporate' | 'Individuals' | 'both')[];
   heroImage: string;
   secondaryImage?: string;
   imageAlt: string;
   order?: number;
   featured?: boolean;
+}
+
+// Hero Section Entry Skeleton Type
+export interface HeroSectionSkeleton {
+  contentTypeId: 'heroSection';
+  fields: {
+    headline: EntryFieldTypes.Text;
+    subheadline?: EntryFieldTypes.Text;
+    ctaButtonText: EntryFieldTypes.Text;
+    ctaButtonLink: EntryFieldTypes.Text;
+    dynamicWords: EntryFieldTypes.Object;
+    carouselImages: EntryFieldTypes.Array<EntryFieldTypes.AssetLink>;
+    imageTransitionDuration?: EntryFieldTypes.Number;
+    logoImage: EntryFieldTypes.AssetLink;
+  };
+}
+
+// Hero Section Entry Type
+export type HeroSectionEntry = Entry<HeroSectionSkeleton, undefined, string>;
+
+// Hero Section Fields (for easier access)
+export type HeroSectionFields = HeroSectionSkeleton['fields'];
+
+// Processed Hero Section for frontend use
+export interface HeroSection {
+  id: string;
+  headline: string;
+  subheadline?: string;
+  ctaButtonText: string;
+  ctaButtonLink: string;
+  dynamicWords: string[];
+  carouselImages: {
+    url: string;
+    title: string;
+    description?: string;
+  }[];
+  imageTransitionDuration: number;
+  logoImage: {
+    url: string;
+    title: string;
+    description?: string;
+  };
+}
+
+// Our Story Entry Skeleton Type
+export interface OurStorySkeleton {
+  contentTypeId: 'aboutHomepage';
+  fields: {
+    title: EntryFieldTypes.Text;
+    description: EntryFieldTypes.Text;
+    founderQuote: EntryFieldTypes.Text;
+    founderName: EntryFieldTypes.Text;
+    founderTitle: EntryFieldTypes.Text;
+    ctaText: EntryFieldTypes.Text;
+    ctaLink: EntryFieldTypes.Text;
+    isActive: EntryFieldTypes.Boolean;
+    sortOrder?: EntryFieldTypes.Integer;
+  };
+}
+
+// Our Story Entry Type
+export type OurStoryEntry = Entry<OurStorySkeleton, undefined, string>;
+
+// Our Story Fields (for easier access)
+export type OurStoryFields = OurStorySkeleton['fields'];
+
+// Processed Our Story for frontend use
+export interface OurStory {
+  id: string;
+  title: string;
+  description: string;
+  founderQuote: string;
+  founderName: string;
+  founderTitle: string;
+  ctaText: string;
+  ctaLink: string;
+  isActive: boolean;
+  sortOrder?: number;
 }
 

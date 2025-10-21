@@ -9,7 +9,7 @@ export function OurPhilosophyExpanded({ className }: OurPhilosophyExpandedProps)
     <Section background="sand" padding="lg" className={className}>
       <Container size="xl">
         <div className="max-w-4xl mx-auto">
-          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-4 sm:mb-6 text-center">
+          <H2 className="text-charcoal text-h2 font-display mb-4 sm:mb-6 text-center">
             Our Philosophy
           </H2>
           <div className="space-y-4 sm:space-y-6">

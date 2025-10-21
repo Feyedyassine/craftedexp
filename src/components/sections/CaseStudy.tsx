@@ -56,7 +56,7 @@ export function CaseStudy({ caseStudies, className }: CaseStudyProps) {
       <Container size="xl">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-3 sm:mb-4">
+          <H2 className="text-charcoal text-h2 font-display mb-3 sm:mb-4">
             Corporate Success Stories
           </H2>
           <Body className="text-charcoal/70 text-base sm:text-lg max-w-2xl mx-auto px-4">
@@ -115,9 +115,9 @@ export function CaseStudy({ caseStudies, className }: CaseStudyProps) {
             {/* Content */}
             <div className="space-y-4 sm:space-y-6 px-4 sm:px-0 order-2 lg:order-1">
               <div>
-                <H2 className="text-charcoal text-base sm:text-lg md:text-xl lg:text-2xl font-display mb-3 sm:mb-4">
+                <h3 className="text-charcoal text-h3 font-display mb-3 sm:mb-4">
                   {currentCaseStudy.title}
-                </H2>
+                </h3>
                 <Body className="text-charcoal/70 text-base sm:text-lg leading-relaxed">
                   {currentCaseStudy.shortDescription}
                 </Body>
@@ -129,7 +129,7 @@ export function CaseStudy({ caseStudies, className }: CaseStudyProps) {
                     <span className="text-cream font-bold text-xs sm:text-sm">1</span>
                   </div>
                   <div>
-                    <h3 className="text-charcoal font-display text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Challenge</h3>
+                    <h4 className="text-charcoal text-h4 font-display mb-1 sm:mb-2">Challenge</h4>
                     <Body className="text-charcoal/70 text-sm sm:text-base">
                       {currentCaseStudy.challenge}
                     </Body>
@@ -141,7 +141,7 @@ export function CaseStudy({ caseStudies, className }: CaseStudyProps) {
                     <span className="text-cream font-bold text-xs sm:text-sm">2</span>
                   </div>
                   <div>
-                    <h3 className="text-charcoal font-display text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Solution</h3>
+                    <h4 className="text-charcoal text-h4 font-display mb-1 sm:mb-2">Solution</h4>
                     <Body className="text-charcoal/70 text-sm sm:text-base">
                       {currentCaseStudy.solution}
                     </Body>
@@ -153,7 +153,7 @@ export function CaseStudy({ caseStudies, className }: CaseStudyProps) {
                     <span className="text-cream font-bold text-xs sm:text-sm">3</span>
                   </div>
                   <div>
-                    <h3 className="text-charcoal font-display text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Results</h3>
+                    <h4 className="text-charcoal text-h4 font-display mb-1 sm:mb-2">Results</h4>
                     <Body className="text-charcoal/70 text-sm sm:text-base">
                       {currentCaseStudy.results}
                     </Body>

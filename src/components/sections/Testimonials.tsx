@@ -1,4 +1,5 @@
 import { Container, Section, H2 } from '@/components/ui';
+import { StaggeredCards, FadeInUp } from '@/components/ui/animations';
 import { Testimonial } from '@/types/contentful';
 
 interface TestimonialsProps {
@@ -16,29 +17,34 @@ export function Testimonials({ testimonials, className }: TestimonialsProps) {
       <Container size="xl">
         {/* Section Title */}
         <div className="text-center mb-8 sm:mb-12">
-          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display">
+          <H2 className="text-charcoal text-h2 font-display">
             What Our Clients Say
           </H2>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <StaggeredCards 
+          staggerDelay={0.5}
+          direction="up"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+        >
           {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="space-y-3 sm:space-y-4 text-center px-2">
-              <blockquote className="text-charcoal text-base sm:text-lg leading-relaxed italic">
+              <blockquote className="text-charcoal text-sm sm:text-base leading-relaxed italic">
                 &ldquo;{testimonial.testimonialText}&rdquo;
               </blockquote>
-              <div className="space-y-1">
-                <div className="font-medium text-charcoal text-sm sm:text-base">
-                  {testimonial.clientName}
-                </div>
+              <FadeInUp delay={0.3}>
+                <div className="space-y-1">
+                  <div className="font-medium text-charcoal text-xs sm:text-sm">
+                    {testimonial.clientName}
+                  </div>
                 {testimonial.clientRole && (
-                  <div className="text-xs sm:text-sm text-charcoal/70">
+                  <div className="text-xs text-charcoal/70">
                     {testimonial.clientRole}
                   </div>
                 )}
                 {testimonial.clientCompany && (
-                  <div className="text-xs sm:text-sm text-charcoal/70">
+                  <div className="text-xs text-charcoal/70">
                     {testimonial.companyWebsite ? (
                       <a 
                         href={testimonial.companyWebsite}
@@ -53,10 +59,11 @@ export function Testimonials({ testimonials, className }: TestimonialsProps) {
                     )}
                   </div>
                 )}
-              </div>
+                </div>
+              </FadeInUp>
             </div>
           ))}
-        </div>
+        </StaggeredCards>
       </Container>
     </Section>
   );

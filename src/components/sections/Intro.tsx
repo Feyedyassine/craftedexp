@@ -13,7 +13,7 @@ export function Intro({ className }: IntroProps) {
     >
       <Container size="xl">
         <div className="max-w-4xl mx-auto text-center">
-          <H2 className="text-charcoal text-2xl md:text-3xl lg:text-4xl font-display mb-6">
+          <H2 className="text-charcoal text-h2 font-display mb-6">
             Our Philosophy
           </H2>
           <Body className="text-lg text-charcoal leading-relaxed">

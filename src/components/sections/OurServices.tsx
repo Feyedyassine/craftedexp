@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import SafariImage from '@/components/ui/SafariImage';
 import { Container, Section, H2, Body } from '@/components/ui';
+import { StaggeredCards } from '@/components/ui/animations';
 import { Service } from '@/types/contentful';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -17,12 +18,12 @@ const OurServices: React.FC<OurServicesProps> = ({ services, className }) => {
 
   // Filter services by category
   const travelServices = useMemo(() => 
-    services.filter(s => s.serviceCategory === 'Travel'),
+    services.filter(s => s.serviceCategory === 'Travel' || s.serviceCategory === 'both'),
     [services]
   );
   
   const eventServices = useMemo(() => 
-    services.filter(s => s.serviceCategory === 'Events'),
+    services.filter(s => s.serviceCategory === 'Events' || s.serviceCategory === 'both'),
     [services]
   );
 
@@ -66,7 +67,7 @@ const OurServices: React.FC<OurServicesProps> = ({ services, className }) => {
         {/* Section Title and Tabs */}
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-8 sm:mb-12 md:mb-16 space-y-4 lg:space-y-0">
           <div className="text-center lg:text-left">
-            <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-2">
+            <H2 className="text-charcoal text-h2 font-display mb-2">
               Our Services
             </H2>
             <p className="text-charcoal/70 text-sm md:text-base">
@@ -123,7 +124,11 @@ const OurServices: React.FC<OurServicesProps> = ({ services, className }) => {
           )}
 
           {/* Cards Grid - Always 4 columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <StaggeredCards 
+            staggerDelay={0.5}
+            direction="up"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+          >
             {displayedServices.map((service, index) => (
               service ? (
                 <div
@@ -154,7 +159,7 @@ const OurServices: React.FC<OurServicesProps> = ({ services, className }) => {
                       
                       {/* Title - Always visible, positioned above description */}
                       <div className="mb-2 sm:mb-3">
-                        <h3 className="text-cream text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-display leading-tight break-words">
+                        <h3 className="text-cream text-h3 font-display leading-tight break-words">
                           {service.serviceName}
                         </h3>
                       </div>
@@ -169,7 +174,7 @@ const OurServices: React.FC<OurServicesProps> = ({ services, className }) => {
                 />
               )
             ))}
-          </div>
+          </StaggeredCards>
 
           {/* Page Indicators - Only show if multiple pages */}
           {hasMultiplePages && (

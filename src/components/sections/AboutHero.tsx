@@ -29,7 +29,7 @@ export function AboutHero({ className }: AboutHeroProps) {
               <div className="text-cream/80 text-xs sm:text-sm font-medium tracking-wider uppercase mb-3">
                 About Us
               </div>
-              <H1 className="text-cream text-2xl sm:text-3xl lg:text-4xl font-display leading-tight">
+              <H1 className="text-cream text-h1 font-display leading-tight">
                 Crafted Experiences
               </H1>
               <p className="text-cream/90 text-base sm:text-lg leading-relaxed mt-4 max-w-2xl mx-auto">

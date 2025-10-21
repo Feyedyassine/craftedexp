@@ -32,7 +32,7 @@ const ServicePair: React.FC<ServicePairProps> = ({
         <Container size="xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-6 text-charcoal">
+              <H2 className="text-h2 font-display mb-6 text-charcoal">
                 {firstService.title}
               </H2>
               <Body className="text-base sm:text-lg lg:text-xl text-charcoal/80 leading-relaxed mb-6">
@@ -80,7 +80,7 @@ const ServicePair: React.FC<ServicePairProps> = ({
               </div>
             </div>
             <div>
-              <H2 className="text-2xl sm:text-3xl lg:text-4xl font-display mb-6 text-charcoal">
+              <H2 className="text-h2 font-display mb-6 text-charcoal">
                 {secondService.title}
               </H2>
               <Body className="text-base sm:text-lg lg:text-xl text-charcoal/80 leading-relaxed mb-6">

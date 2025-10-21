@@ -1,4 +1,5 @@
 import { Container, Section, H2, Body } from '@/components/ui';
+import { StaggeredCards } from '@/components/ui/animations';
 import { Target, Globe, Layers, Shield, Heart } from 'lucide-react';
 
 interface WhyChooseUsProps {
@@ -38,7 +39,7 @@ export function WhyChooseUs({ className }: WhyChooseUsProps) {
     <Section background="white" padding="lg" className={className}>
       <Container>
         <div className="text-center mb-8 sm:mb-12">
-          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-2">
+          <H2 className="text-charcoal text-h2 font-display mb-2">
             Why Choose Us?
           </H2>
           <Body className="text-charcoal/70 text-sm md:text-base">
@@ -46,23 +47,27 @@ export function WhyChooseUs({ className }: WhyChooseUsProps) {
           </Body>
         </div>
         
-         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8">
+         <StaggeredCards 
+           staggerDelay={0.5}
+           direction="right"
+           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8"
+         >
            {reasons.map((reason, index) => {
              return (
                <div key={index} className="text-center px-2">
                  <div className="text-charcoal mb-3 sm:mb-4">
                    {reason.icon}
                  </div>
-               <h3 className="text-charcoal text-xs sm:text-sm md:text-base font-display mb-2">
+               <h4 className="text-charcoal text-h4 font-display font-semibold mb-2">
                  {reason.title}
-               </h3>
+               </h4>
                 <p className="text-charcoal/70 text-xs sm:text-sm md:text-base leading-relaxed">
                   {reason.description}
                 </p>
               </div>
             );
           })}
-        </div>
+        </StaggeredCards>
       </Container>
     </Section>
   );

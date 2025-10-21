@@ -33,7 +33,7 @@ export function TheFounder({ className }: TheFounderProps) {
               </div>
               
               {/* Name */}
-              <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl font-display mb-6">
+              <H2 className="text-charcoal text-h2 font-display mb-6">
                 Mahdy Ellabben
               </H2>
               

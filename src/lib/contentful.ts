@@ -6,7 +6,11 @@ import {
   TestimonialEntry, 
   Testimonial,
   ServiceEntry, 
-  Service
+  Service,
+  HeroSectionEntry,
+  HeroSection,
+  OurStoryEntry,
+  OurStory
 } from '@/types/contentful';
 
 // Validate environment variables
@@ -194,8 +198,8 @@ function transformServiceEntry(entry: ServiceEntry): Service {
     slug: fields.slug as string,
     shortDescription: fields.shortDescription as string,
     fullDescription: fields.fullDescription as Document,
-    serviceCategory: fields.serviceCategory as 'Travel' | 'Events',
-    targetAudience: fields.targetAudience as ('Corporate' | 'Individuals')[],
+    serviceCategory: fields.serviceCategory as 'Travel' | 'Events' | 'both',
+    targetAudience: fields.targetAudience as ('Corporate' | 'Individuals' | 'both')[],
     heroImage: heroImageUrl,
     secondaryImage: secondaryImageUrl,
     imageAlt: fields.imageAlt as string,
@@ -220,11 +224,13 @@ export async function getServices(options?: {
     };
 
     if (options?.category) {
-      query['fields.serviceCategory'] = options.category;
+      // Include both the specific category and 'both'
+      query['fields.serviceCategory[in]'] = [options.category, 'both'];
     }
 
     if (options?.audience) {
-      query['fields.targetAudience[in]'] = options.audience;
+      // Include both the specific audience and 'both'
+      query['fields.targetAudience[in]'] = [options.audience, 'both'];
     }
 
     if (options?.featuredOnly) {
@@ -236,6 +242,87 @@ export async function getServices(options?: {
     return (response.items as ServiceEntry[]).map(transformServiceEntry);
   } catch (error) {
     console.error('Error fetching services:', error);
+    throw error;
+  }
+}
+
+/**
+ * Transform Contentful hero section entry to frontend-friendly format
+ */
+function transformHeroSectionEntry(entry: HeroSectionEntry): HeroSection {
+  const fields = entry.fields;
+  
+  // Get logo image URL from Contentful asset
+  const logoImage = fields.logoImage as Asset | undefined;
+  const logoImageUrl = logoImage?.fields?.file?.url 
+    ? `https:${logoImage.fields.file.url}` 
+    : '';
+    
+  const logoImageTitle = typeof logoImage?.fields?.title === 'string' ? logoImage.fields.title : '';
+  const logoImageDescription = typeof logoImage?.fields?.description === 'string' ? logoImage.fields.description : '';
+
+  // Get carousel images URLs from Contentful assets
+  const carouselImages = (fields.carouselImages as Asset[] || []).map(asset => ({
+    url: asset.fields?.file?.url ? `https:${asset.fields.file.url}` : '',
+    title: typeof asset.fields?.title === 'string' ? asset.fields.title : '',
+    description: typeof asset.fields?.description === 'string' ? asset.fields.description : ''
+  }));
+
+  // Parse dynamic words from JSON object
+  let dynamicWords: string[] = [];
+  try {
+    if (fields.dynamicWords && typeof fields.dynamicWords === 'object') {
+      // If it's already an array, use it directly
+      if (Array.isArray(fields.dynamicWords)) {
+        dynamicWords = fields.dynamicWords as string[];
+      } else {
+        // If it's an object with numbered keys, convert to array
+        const wordsObj = fields.dynamicWords as Record<string, string>;
+        dynamicWords = Object.values(wordsObj).filter(word => typeof word === 'string');
+      }
+    }
+  } catch (error) {
+    console.error('Error parsing dynamic words:', error);
+    dynamicWords = ['Experiences', 'Events', 'Travel', 'Celebrations', 'Journeys', 'Concierge']; // fallback
+  }
+
+  return {
+    id: entry.sys.id,
+    headline: fields.headline as string,
+    subheadline: fields.subheadline as string | undefined,
+    ctaButtonText: fields.ctaButtonText as string,
+    ctaButtonLink: fields.ctaButtonLink as string,
+    dynamicWords,
+    carouselImages,
+    imageTransitionDuration: (fields.imageTransitionDuration as number) || 5,
+    logoImage: {
+      url: logoImageUrl,
+      title: logoImageTitle,
+      description: logoImageDescription
+    },
+  };
+}
+
+/**
+ * Fetch the hero section (since there's only one)
+ */
+export async function getHeroSection(): Promise<HeroSection | null> {
+  try {
+    const query = {
+      content_type: 'heroSection',
+      order: ['-sys.createdAt'],
+      limit: 1
+    };
+
+    const response = await contentfulClient.getEntries(query);
+
+    if (response.items.length === 0) {
+      return null;
+    }
+
+    return transformHeroSectionEntry(response.items[0] as HeroSectionEntry);
+  } catch (error) {
+    console.error('Error fetching hero section:', error);
     throw error;
   }
 }
@@ -258,6 +345,56 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
     return transformServiceEntry(response.items[0] as ServiceEntry);
   } catch (error) {
     console.error(`Error fetching service with slug "${slug}":`, error);
+    throw error;
+  }
+}
+
+/**
+ * Transform OurStory entry to frontend-friendly format
+ */
+function transformOurStoryEntry(entry: OurStoryEntry): OurStory {
+  const fields = entry.fields;
+
+  return {
+    id: entry.sys.id,
+    title: fields.title as string,
+    description: fields.description as string,
+    founderQuote: fields.founderQuote as string,
+    founderName: fields.founderName as string,
+    founderTitle: fields.founderTitle as string,
+    ctaText: fields.ctaText as string,
+    ctaLink: fields.ctaLink as string,
+    isActive: fields.isActive as boolean,
+    sortOrder: fields.sortOrder as number | undefined,
+  };
+}
+
+/**
+ * Fetch the Our Story section (since there's only one)
+ */
+export async function getOurStory(): Promise<OurStory | null> {
+  try {
+    const query = {
+      content_type: 'aboutHomepage',
+      'fields.isActive': true,
+      order: ['fields.sortOrder', '-sys.createdAt'],
+      limit: 1
+    };
+
+    const response = await contentfulClient.getEntries(query);
+
+    if (response.items.length === 0) {
+      return null;
+    }
+
+    return transformOurStoryEntry(response.items[0] as OurStoryEntry);
+  } catch (error) {
+    // If content type doesn't exist yet, return null instead of throwing
+    if (error && typeof error === 'object' && 'status' in error && error.status === 400) {
+      console.warn('aboutHomepage content type not found in Contentful. Using fallback data.');
+      return null;
+    }
+    console.error('Error fetching our story:', error);
     throw error;
   }
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
 import SafariImage from '@/components/ui/SafariImage';
@@ -19,11 +20,15 @@ interface NavItem {
 
 
 
-const mainNavItems: NavItem[] = [
-  { label: 'For Corporate', href: '/for-corporate', isActive: false },
-  { label: 'For Individuals', href: '/for-individuals', isActive: false },
-  { label: 'Case Studies', href: '/case-studies', isActive: false },
-  { label: 'About', href: '/about', isActive: false },
+const leftNavItems: NavItem[] = [
+  { label: 'About Us', href: '/about', isActive: false },
+  { label: 'Our Services', href: '/#our-services', isActive: false },
+  { label: 'Our Portfolio', href: '/case-studies', isActive: false },
+];
+
+const rightNavItems: NavItem[] = [
+  { label: 'Corporate', href: '/for-corporate', isActive: false },
+  { label: 'Leisure', href: '/for-individuals', isActive: false },
 ];
 
 export function Header({ className }: HeaderProps) {
@@ -56,23 +61,33 @@ export function Header({ className }: HeaderProps) {
   }, [isHomePage]);
 
   return (
-    <header className={cn(
-      'z-50 transition-all duration-500 border-b',
-      showLogo 
-        ? 'sticky top-0 bg-black text-cream border-black/20' 
-        : 'absolute top-0 left-0 right-0 bg-transparent text-white border-transparent',
-      className
-    )}>
+    <motion.header 
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ 
+        duration: 1.2, 
+        ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for premium feel
+        delay: 0.2 
+      }}
+      className={cn(
+        'z-50 transition-all duration-500 ease-in-out border-b',
+        showLogo || isMobileMenuOpen
+          ? 'sticky top-0 bg-black text-cream border-black/20' 
+          : 'absolute top-0 left-0 right-0 bg-transparent text-white border-transparent',
+        className
+      )}>
       <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 xl:px-8">
         <div className="flex items-center h-12 sm:h-16">
           {/* Mobile Menu Button - Only visible on mobile */}
           <button 
             onClick={toggleMobileMenu}
             className={cn(
-              'lg:hidden p-1.5 transition-colors mr-3',
-              showLogo 
-                ? 'text-cream hover:text-charcoal' 
-                : 'text-white hover:text-cream drop-shadow-lg'
+              'lg:hidden p-1.5 mr-3',
+              isMobileMenuOpen 
+                ? 'text-cream hover:text-charcoal transition-colors duration-200' 
+                : showLogo
+                  ? 'text-cream hover:text-charcoal transition-colors duration-500 ease-in-out'
+                  : 'text-white hover:text-cream drop-shadow-lg transition-colors duration-500 ease-in-out'
             )}
             aria-label="Toggle mobile menu"
           >
@@ -120,37 +135,60 @@ export function Header({ className }: HeaderProps) {
             </Link>
           </div>
 
-          {/* Desktop Navigation Menu - Left aligned after logo */}
+          {/* Left Navigation Menu - Desktop */}
           <div className="hidden lg:block ml-6">
-            <div className={cn(
-              'transition-all duration-500 ease-in-out',
-              showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-            )}>
-              <nav className="flex items-center space-x-6">
-                {mainNavItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      'transition-colors duration-200 font-medium text-sm relative group',
-                      showLogo 
-                        ? 'text-cream hover:text-charcoal' 
-                        : 'text-white hover:text-cream drop-shadow-lg'
-                    )}
-                  >
-                    {item.label}
-                    <span className={cn(
-                      'absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-200 group-hover:w-full',
-                      showLogo ? 'bg-charcoal' : 'bg-cream'
-                    )} />
-                  </a>
-                ))}
-              </nav>
-            </div>
+            <nav className="flex items-center space-x-6">
+              {leftNavItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'font-medium text-sm relative group',
+                    isMobileMenuOpen 
+                      ? 'text-cream hover:text-charcoal transition-colors duration-200' 
+                      : showLogo
+                        ? 'text-cream hover:text-charcoal transition-colors duration-500 ease-in-out'
+                        : 'text-white hover:text-cream drop-shadow-lg transition-colors duration-500 ease-in-out'
+                  )}
+                >
+                  {item.label}
+                  <span className={cn(
+                    'absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-500 ease-in-out group-hover:w-full',
+                    showLogo || isMobileMenuOpen ? 'bg-charcoal' : 'bg-cream'
+                  )} />
+                </a>
+              ))}
+            </nav>
           </div>
 
           {/* Spacer to push right section to the right */}
           <div className="flex-1" />
+
+          {/* Right Navigation Menu - Desktop */}
+          <div className="hidden lg:block mr-6">
+            <nav className="flex items-center space-x-6">
+              {rightNavItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'font-medium text-sm relative group',
+                    isMobileMenuOpen 
+                      ? 'text-cream hover:text-charcoal transition-colors duration-200' 
+                      : showLogo
+                        ? 'text-cream hover:text-charcoal transition-colors duration-500 ease-in-out'
+                        : 'text-white hover:text-cream drop-shadow-lg transition-colors duration-500 ease-in-out'
+                  )}
+                >
+                  {item.label}
+                  <span className={cn(
+                    'absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-500 ease-in-out group-hover:w-full',
+                    showLogo || isMobileMenuOpen ? 'bg-charcoal' : 'bg-cream'
+                  )} />
+                </a>
+              ))}
+            </nav>
+          </div>
 
           {/* Right Section - Phone and CTA */}
           <div className="flex items-center space-x-2 sm:space-x-3">
@@ -158,8 +196,12 @@ export function Header({ className }: HeaderProps) {
             <div className="hidden sm:flex items-center space-x-1 sm:space-x-2">
               <svg
                 className={cn(
-                  'w-3 h-3 sm:w-4 sm:h-4 transition-colors duration-200',
-                  showLogo ? 'text-charcoal' : 'text-white drop-shadow-lg'
+                  'w-3 h-3 sm:w-4 sm:h-4',
+                  isMobileMenuOpen 
+                    ? 'text-charcoal transition-colors duration-200' 
+                    : showLogo
+                      ? 'text-charcoal transition-colors duration-500 ease-in-out'
+                      : 'text-white drop-shadow-lg transition-colors duration-500 ease-in-out'
                 )}
                 fill="none"
                 stroke="currentColor"
@@ -175,10 +217,12 @@ export function Header({ className }: HeaderProps) {
               <a
                 href="tel:+21628780000"
                 className={cn(
-                  'transition-colors duration-200 text-xs sm:text-sm font-medium',
-                  showLogo 
-                    ? 'text-cream hover:text-charcoal' 
-                    : 'text-white hover:text-cream drop-shadow-lg'
+                  'text-xs sm:text-sm font-medium',
+                  isMobileMenuOpen 
+                    ? 'text-cream hover:text-charcoal transition-colors duration-200' 
+                    : showLogo
+                      ? 'text-cream hover:text-charcoal transition-colors duration-500 ease-in-out'
+                      : 'text-white hover:text-cream drop-shadow-lg transition-colors duration-500 ease-in-out'
                 )}
               >
                 <span className="hidden sm:inline">+216 28 780 000</span>
@@ -192,10 +236,12 @@ export function Header({ className }: HeaderProps) {
                 variant="outline"
                 size="sm"
                 className={cn(
-                  'font-semibold text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 cursor-pointer transition-all duration-200',
-                  showLogo
-                    ? 'bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream'
-                    : 'bg-white/90 text-charcoal border-white/90 hover:bg-white hover:text-charcoal drop-shadow-lg'
+                  'font-semibold text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 cursor-pointer',
+                  isMobileMenuOpen 
+                    ? 'bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream transition-all duration-200' 
+                    : showLogo
+                      ? 'bg-cream text-charcoal border-cream hover:bg-charcoal hover:text-cream transition-all duration-500 ease-in-out'
+                      : 'bg-white/90 text-charcoal border-white/90 hover:bg-white hover:text-charcoal drop-shadow-lg transition-all duration-500 ease-in-out'
                 )}
               >
                 Talk To Us
@@ -206,32 +252,54 @@ export function Header({ className }: HeaderProps) {
 
         {/* Mobile Navigation Menu */}
         <div className={cn(
-          'lg:hidden transition-all duration-300 overflow-hidden',
-          showLogo ? 'border-t border-black/20' : 'border-t border-white/20',
-          isMobileMenuOpen ? 'max-h-48 opacity-100 pb-4' : 'max-h-0 opacity-0'
+          'lg:hidden transition-all duration-500 ease-in-out overflow-hidden bg-black',
+          showLogo || isMobileMenuOpen ? 'border-t border-black/20' : 'border-t border-white/20',
+          isMobileMenuOpen ? 'max-h-80 opacity-100 pb-4' : 'max-h-0 opacity-0'
         )}>
           <nav className="pt-4">
-            <div className="space-y-3">
-              {mainNavItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    'block transition-colors duration-200 font-medium py-2 text-sm',
-                    showLogo 
-                      ? 'text-cream hover:text-charcoal' 
-                      : 'text-white hover:text-cream drop-shadow-lg'
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
+            <div className="space-y-4">
+              {/* Left Navigation Items */}
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-cream/60 mb-2">
+                  Company
+                </h3>
+                <div className="space-y-2">
+                  {leftNavItems.map((item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className="block transition-colors duration-200 font-medium py-2 text-sm text-cream hover:text-charcoal"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Navigation Items */}
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-cream/60 mb-2">
+                  Services
+                </h3>
+                <div className="space-y-2">
+                  {rightNavItems.map((item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className="block transition-colors duration-200 font-medium py-2 text-sm text-cream hover:text-charcoal"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
           </nav>
         </div>
 
       </div>
-    </header>
+    </motion.header>
   );
 }

@@ -10,7 +10,7 @@ export function IntroWithTestimonials({ className }: IntroWithTestimonialsProps)
       <Container size="xl">
         {/* Intro Section */}
         <div className="max-w-4xl mx-auto text-center">
-          <H2 className="text-charcoal text-lg sm:text-xl md:text-2xl lg:text-3xl font-display mb-4 sm:mb-6">
+          <H2 className="text-charcoal text-h2 font-display mb-4 sm:mb-6">
             Our Philosophy
           </H2>
           <Body className="text-base sm:text-lg text-charcoal leading-relaxed">

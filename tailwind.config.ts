@@ -16,17 +16,28 @@ const config: Config = {
         cream: '#E4E2DD',
       },
       fontFamily: {
-        // Roboto Condensed for body text
-        sans: ['Roboto Condensed', 'sans-serif'],
-        // OPTI Copperplate for headlines
-        display: ['OPTI Copperplate', 'Roboto Condensed', 'sans-serif'],
+        // Inter for body text
+        sans: ['var(--font-inter)', 'sans-serif'],
+        // Cormorant for headlines
+        display: ['var(--font-cormorant)', 'var(--font-inter)', 'sans-serif'],
       },
       fontSize: {
-        // Typography hierarchy from PRD
-        'h1': ['64px', { lineHeight: '1.1', fontWeight: '700' }],
-        'h2': ['48px', { lineHeight: '1.2', fontWeight: '700' }],
-        'h3': ['32px', { lineHeight: '1.3', fontWeight: '600' }],
-        'body': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+        // Typography hierarchy from PRD - responsive sizes (H1 and H2 aligned)
+        'h1': ['36px', { lineHeight: '1.1', fontWeight: '500' }],
+        'h1-sm': ['44px', { lineHeight: '1.1', fontWeight: '500' }],
+        'h1-lg': ['56px', { lineHeight: '1.1', fontWeight: '500' }],
+        'h2': ['36px', { lineHeight: '1.2', fontWeight: '500' }],
+        'h2-sm': ['44px', { lineHeight: '1.2', fontWeight: '500' }],
+        'h2-lg': ['56px', { lineHeight: '1.2', fontWeight: '500' }],
+        'h3': ['20px', { lineHeight: '1.3', fontWeight: '500' }],
+        'h3-sm': ['24px', { lineHeight: '1.3', fontWeight: '500' }],
+        'h3-lg': ['32px', { lineHeight: '1.3', fontWeight: '500' }],
+        'h4': ['16px', { lineHeight: '1.4', fontWeight: '500' }],
+        'h4-sm': ['18px', { lineHeight: '1.4', fontWeight: '500' }],
+        'h4-lg': ['20px', { lineHeight: '1.4', fontWeight: '500' }],
+        'body': ['16px', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-sm': ['17px', { lineHeight: '1.6', fontWeight: '400' }],
+        'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
       },
       spacing: {
         // Custom spacing for generous whitespace

@@ -1,12 +1,14 @@
 import { Header, Footer } from '@/components/layout';
 import { Hero, OurServices, CaseStudy, OurStory, WhyChooseUs, Testimonials, CTA } from '@/components/sections';
-import { getCaseStudies, getTestimonials, getServices } from '@/lib/contentful';
+import { getCaseStudies, getTestimonials, getServices, getHeroSection, getOurStory } from '@/lib/contentful';
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
 
 export default async function Home() {
   // Fetch data from Contentful
+  const heroData = await getHeroSection(); // Hero section data
+  const ourStoryData = await getOurStory(); // Our Story section data
   const caseStudies = await getCaseStudies(true); // Only featured case studies
   const testimonials = await getTestimonials(true); // Only featured testimonials
   const services = await getServices({ featuredOnly: true }); // Only featured services
@@ -17,13 +19,15 @@ export default async function Home() {
       <Header />
 
       {/* Hero Section */}
-      <Hero />
+      <Hero heroData={heroData} />
 
       {/* Our Story Section */}
-      <OurStory />
+      <OurStory ourStoryData={ourStoryData} />
 
       {/* Services Section */}
-      <OurServices services={services} />
+      <div id="our-services">
+        <OurServices services={services} />
+      </div>
 
       {/* Why Choose Us Section */}
       <WhyChooseUs />

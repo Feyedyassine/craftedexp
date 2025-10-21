@@ -53,7 +53,7 @@ export default function CaseStudiesList({ caseStudies }: CaseStudiesListProps) {
         <div className="mb-8 sm:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h3 className="text-charcoal font-display text-lg sm:text-xl mb-2">
+              <h3 className="text-charcoal font-display text-h3 mb-2">
                 Filter by Year
               </h3>
               <p className="text-charcoal/60 text-sm">
@@ -123,7 +123,7 @@ export default function CaseStudiesList({ caseStudies }: CaseStudiesListProps) {
                     </div>
 
                     {/* Title */}
-                    <H2 className="text-cream text-xl sm:text-2xl lg:text-3xl font-display mb-3 sm:mb-4 group-hover:translate-x-2 transition-transform duration-500">
+                    <H2 className="text-cream text-h3 font-display mb-3 sm:mb-4 group-hover:translate-x-2 transition-transform duration-500">
                       {caseStudy.title}
                     </H2>
                     
