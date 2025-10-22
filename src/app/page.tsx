@@ -1,5 +1,5 @@
 import { Header, Footer } from '@/components/layout';
-import { Hero, OurServices, CaseStudy, OurStory, WhyChooseUs, Testimonials, CTA } from '@/components/sections';
+import { Hero, OurServices, BentoGrid, OurStory, WhyChooseUs, Testimonials, CTA } from '@/components/sections';
 import { getCaseStudies, getTestimonials, getServices, getHeroSection, getOurStory } from '@/lib/contentful';
 
 // Revalidate every 60 seconds (ISR)
@@ -33,7 +33,7 @@ export default async function Home() {
       <WhyChooseUs />
 
       {/* Case Study Section */}
-      <CaseStudy caseStudies={caseStudies} />
+      <BentoGrid caseStudies={caseStudies} />
 
       {/* Testimonials Section */}
       <Testimonials testimonials={testimonials} />

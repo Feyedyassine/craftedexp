@@ -129,8 +129,8 @@ export interface ServiceSkeleton {
     slug: EntryFieldTypes.Text;
     shortDescription: EntryFieldTypes.Text;
     fullDescription: EntryFieldTypes.RichText;
-    serviceCategory: EntryFieldTypes.Text<'Travel' | 'Events' | 'both'>;
-    targetAudience: EntryFieldTypes.Array<EntryFieldTypes.Symbol<'Corporate' | 'Individuals' | 'both'>>;
+    serviceCategory: EntryFieldTypes.Text<'Travel' | 'Events' | 'both' | 'Both'>;
+    targetAudience: EntryFieldTypes.Array<EntryFieldTypes.Symbol<'Corporate' | 'Individuals' | 'both' | 'Both'>>;
     heroImage: EntryFieldTypes.AssetLink;
     secondaryImage?: EntryFieldTypes.AssetLink;
     imageAlt: EntryFieldTypes.Text;
@@ -152,8 +152,8 @@ export interface Service {
   slug: string;
   shortDescription: string;
   fullDescription: Document;
-  serviceCategory: 'Travel' | 'Events' | 'both';
-  targetAudience: ('Corporate' | 'Individuals' | 'both')[];
+  serviceCategory: 'Travel' | 'Events' | 'both' | 'Both';
+  targetAudience: ('Corporate' | 'Individuals' | 'both' | 'Both')[];
   heroImage: string;
   secondaryImage?: string;
   imageAlt: string;

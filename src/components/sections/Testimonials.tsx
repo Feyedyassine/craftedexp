@@ -25,7 +25,7 @@ export function Testimonials({ testimonials, className }: TestimonialsProps) {
         {/* Testimonials Grid */}
         <StaggeredCards 
           staggerDelay={0.5}
-          direction="up"
+          direction="right"
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {testimonials.map((testimonial) => (

@@ -34,16 +34,16 @@ export function OurStory({ ourStoryData, className }: OurStoryProps) {
           </Body>
           
           {/* Founder Quote */}
-          <div className="bg-sand p-6 sm:p-8 border-l-4 border-charcoal my-6 sm:my-8 max-w-2xl mx-auto">
+          <div className="bg-sand p-6 sm:p-8 my-6 sm:my-8 max-w-2xl mx-auto">
             <blockquote className="text-charcoal text-base sm:text-lg md:text-xl italic leading-relaxed mb-3">
               <LineTypewriter 
                 text={data.founderQuote}
-                speed={1000} // Slower for premium feel
-                delay={0.2} // Reduced delay for faster start
+                speed={600} // Faster but still elegant
+                delay={0.1} // Quicker start
                 className="block"
               />
             </blockquote>
-            <FadeInUp delay={1.5}>
+            <FadeInUp delay={1.0}>
               <div className="text-charcoal font-display text-base sm:text-lg font-semibold">
                 — {data.founderName}, {data.founderTitle}
               </div>

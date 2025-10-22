@@ -218,20 +218,11 @@ export async function getServices(options?: {
   featuredOnly?: boolean;
 }): Promise<Service[]> {
   try {
+    // Fetch all services first
     const query: Record<string, unknown> = {
       content_type: 'service',
       order: ['fields.order', '-sys.createdAt'],
     };
-
-    if (options?.category) {
-      // Include both the specific category and 'both'
-      query['fields.serviceCategory[in]'] = [options.category, 'both'];
-    }
-
-    if (options?.audience) {
-      // Include both the specific audience and 'both'
-      query['fields.targetAudience[in]'] = [options.audience, 'both'];
-    }
 
     if (options?.featuredOnly) {
       query['fields.featured'] = true;
@@ -239,7 +230,29 @@ export async function getServices(options?: {
 
     const response = await contentfulClient.getEntries(query);
 
-    return (response.items as ServiceEntry[]).map(transformServiceEntry);
+    // Transform all services first
+    const allServices = (response.items as ServiceEntry[]).map(transformServiceEntry);
+    
+    // Filter on the frontend
+    let filteredServices = allServices;
+    
+    if (options?.category) {
+      filteredServices = filteredServices.filter(service => 
+        service.serviceCategory === options.category || 
+        service.serviceCategory === 'both' || 
+        service.serviceCategory === 'Both'
+      );
+    }
+    
+    if (options?.audience) {
+      filteredServices = filteredServices.filter(service => 
+        service.targetAudience.includes(options.audience!) || 
+        service.targetAudience.includes('both') || 
+        service.targetAudience.includes('Both')
+      );
+    }
+    
+    return filteredServices;
   } catch (error) {
     console.error('Error fetching services:', error);
     throw error;
